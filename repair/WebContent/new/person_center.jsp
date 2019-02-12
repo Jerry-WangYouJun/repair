@@ -27,7 +27,7 @@
     <div class="info_mc borderB">
         <div class="helper_headCover">
             <div class="head_info_mc" >
-	    			 <img src="${headImage}" width ="56px"   height="56px" />
+	    			 <img src="${headImg}" width ="56px"   height="56px" />
             </div>
         </div>
 
