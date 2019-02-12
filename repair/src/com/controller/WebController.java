@@ -1,6 +1,9 @@
 package com.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -8,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.common.StringUtils;
+import com.model.Card;
 import com.model.CardAttribute;
 import com.model.Member;
 import com.model.Pagination;
@@ -24,6 +29,8 @@ import com.service.CardService;
 import com.service.MemberService;
 import com.service.OrderService;
 import com.service.UserService;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/web")
@@ -203,5 +210,36 @@ public class WebController {
 	@RequestMapping("/registerInit")
 	public String registerInit(HttpServletRequest  request , HttpSession session ,String openId , String remark , Integer id  ) {
 		return "forward:/wx/registerInit.jsp";
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param session
+	 * @param value   值
+	 * @param colName 字段名
+	 */
+	@RequestMapping("/check_unique")
+	public void check_unique(HttpServletResponse response , HttpServletRequest  request , HttpSession session ,String value , String colName   ) {
+		  response.setContentType("text/text;charset=UTF-8");
+	        PrintWriter out;
+	        JSONObject json = new JSONObject();
+	        try {
+	        		colName = "idCard".equals(colName)?"id_card":colName;
+	            int i  = memberService.check_unique(colName, value);
+	            out = response.getWriter();
+	            if(i > 0) {
+		            	json.put("msg", "数据已经在，请重新输入");
+		            	json.put("success", false);
+	            }else {
+	            		json.put("success", true);
+	            }
+	            out.println(json);
+	            out.flush();
+	            out.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            
+	        }
 	}
 }

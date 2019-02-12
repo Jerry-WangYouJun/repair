@@ -41,14 +41,14 @@
 							<select class="form-control"  id ="cardType" name="cardType">
 					        </select>	
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label for="message-text" class="control-label">状态:</label>
 							<select class="form-control"  id ="cardStatus" name="cardStatus">
 								<option value="">请选择状态</option>
 								<option value="0">有效</option>
 								<option value="1">无效</option>
 							</select>
-						</div>
+						</div> -->
 						<div class="form-group">
 							<label for="recipient-name" class="control-label">备注:</label> <input
 								type="text" class="form-control" name="remark" id="remark" >

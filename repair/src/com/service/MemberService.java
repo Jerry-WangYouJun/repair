@@ -51,4 +51,9 @@ public class MemberService {
 	public Member queryMemberByCode(String memberCode) {
 		return mapper.checkMemberCodeIsAlreadyExist(memberCode);
 	}
+
+	public int check_unique(String colName, String value) {
+		// TODO Auto-generated method stub
+		return dao.check_unque(colName,  value);
+	}
 }

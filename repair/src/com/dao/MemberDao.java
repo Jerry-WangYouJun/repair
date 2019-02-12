@@ -54,6 +54,18 @@ public class MemberDao {
         });
         return total[0];
     }
+    
+    public int check_unque(String  column, String value) {
+        final Integer[] total =  {0} ;
+        String  sql  = "SELECT count(*) total FROM member where  " + column + " = '" + value + "'"  ;
+        jdbcTemplate.query(sql, new RowMapper() {
+            public Object mapRow(ResultSet rs, int arg1) throws SQLException {
+                total[0] = rs.getInt("total");
+                return null ;
+            }
+        });
+        return total[0];
+    }
 
     //SELECT * FROM member m left join role r on m.role = r.role_id
     public String whereSQL(QueryData qo){
