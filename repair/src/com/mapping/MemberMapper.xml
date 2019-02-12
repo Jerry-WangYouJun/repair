@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.model.Member">
+    <id column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="member_code" jdbcType="VARCHAR" property="memberCode" />
+    <result column="role" jdbcType="INTEGER" property="role" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="consume_detaile" jdbcType="VARCHAR" property="consumeDetaile" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    member_id, member_code, role, name, phone, id_card, consume_detaile, remark, open_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </select>
+  <select id="checkMemberCodeIsAlreadyExist" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from member
+    where member_code = #{memberCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </delete>
+  <delete id="delMemberWithIds" parameterType="java.lang.Long">
+    DELETE FROM member
+    WHERE member_id IN
+    <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.model.Member">
+    insert into member (member_id, member_code, role, 
+      name, phone, id_card, 
+      consume_detaile, remark, open_id
+      )
+    values (#{memberId,jdbcType=INTEGER}, #{memberCode,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{consumeDetaile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="memberCode != null">
+        member_code,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="consumeDetaile != null">
+        consume_detaile,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="memberCode != null">
+        #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="consumeDetaile != null">
+        #{consumeDetaile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Member">
+    update member
+    <set>
+      <if test="memberCode != null">
+        member_code = #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="consumeDetaile != null">
+        consume_detaile = #{consumeDetaile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Member">
+    update member
+    set member_code = #{memberCode,jdbcType=VARCHAR},
+      role = #{role,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      consume_detaile = #{consumeDetaile,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR}
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </update>
+</mapper>

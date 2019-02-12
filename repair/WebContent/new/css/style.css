@@ -1,0 +1,323 @@
+/*
+!*去掉默认padding*!
+[class*="col-"] {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+*/
+ul,li{
+    list-style-type: none;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.index-header{
+    background-color: #f6f6f6;
+    color:#333;
+    height: 4.5rem;
+    line-height: 4.5rem;
+    font-size: 1.4rem;
+}
+.index-header-search{
+    margin-top: 0.8rem;
+    height: 2.5rem;
+}
+.no-pad {
+    padding: 0 !important;
+}
+.glyphicon-teather{
+    color:#f5bbcd;
+    font-size: 1.8rem;
+}
+.index-menu{
+    text-align: center;
+    height: 3.8rem;
+    line-height: 3.8rem;
+    border-bottom: 1px solid #ededed;
+    font-size: 1.5rem;
+    background-color: #fff;
+}
+.index-menu span.on{
+    border-bottom:3px solid #f5bbcd;
+    color: #f5bbcd;
+}
+.index-menu span{
+    height: 3.8rem;
+    display: block;
+}
+.index-list{
+    padding:1.5rem 1rem 0 1rem;
+    background-color: #fff;
+}
+.index-list p{
+    font-size: 1.5rem;
+}
+.index-list .col-xs-4{
+    padding-left:0;
+}
+.index-list .col-xs-8{
+    padding-right:0px;
+}
+.index-list .index-list-tittle{
+    font-size: 2rem;
+    padding-right:15px;
+    height: 2.5rem;
+    overflow: hidden;
+}
+.index-list-main{
+    font-size: 1.5rem;
+    color:#999;
+    height: 3.8rem;
+    overflow: hidden;
+    padding-right:10px;
+}
+.menu-list-main{
+    font-size: 1.5rem;
+    color:#999;
+    height: 3rem;
+    overflow: hidden;
+    padding-right:10px;
+}
+.menu-list-main img{
+    width:1.6rem;
+}
+.index-list-main img{
+    width:1.6rem;
+}
+.index-list-tap{
+    font-size: 1.5rem;
+    color:#f5bbcd;
+    line-height: 1rem;
+    background-color: #fff;
+    margin-top: 0.5rem;
+}
+.line{
+    height: 0.8rem;
+    width: 2px;
+    display: block;
+    background-color:#f5bbcd ;
+    margin-top:0.6rem;
+}
+.index-list-tap span{
+    line-height: 2rem;
+    float: left;
+    margin-left: 0.4rem;
+}
+.index-list-tap i{
+    line-height: 2rem;
+    float: left;
+}
+.index-list-bottom{
+    height:2.5rem;
+    line-height: 2.5rem;
+    color:#999;
+}
+.index-list-bottom span{
+    color:#333;
+}
+.index-list-bottom-line{
+    height: 1px;
+    width: 100%;
+    background-color: #ededed;
+    float: left;
+}
+.menu-list-bottom-line{
+    height: 1px;
+    width: 100%;
+    background-color: #ededed;
+    float: left;
+    margin-top: 1rem;
+}
+.index-list-bg{
+    background-color: #efeef3;
+}
+.list-activity{
+    margin-top:1rem;
+    overflow: hidden;
+}
+.list-left{
+    width:40%;
+}
+.list-right{
+    width:60%;
+}
+.index-list .activity-list-tittle{
+    font-size: 1.8rem;
+    height: 4.4rem;
+    overflow: hidden;
+    padding-right:15px;
+}
+.activity-list-tap{
+    font-size: 1.5rem;
+    color:#999;
+    line-height: 1rem;
+    margin-top:1.3rem;
+    height: 2rem;
+}
+.activity-line{
+    height: 0.8rem;
+    width: 2px;
+    display: block;
+    background-color:#999 ;
+    margin-top:0.1rem;
+}
+.activity-list-tap span{
+    float: left;
+    margin-left: 0.4rem;
+}
+.activity-list-bottom-line{
+    height: 1px;
+    width: 100%;
+    background-color: #ededed;
+    float: left;
+    margin-top:1rem;
+    clear: both;
+}
+.activity-list-bottom{
+    width:100%;
+    margin: 1rem 0;
+}
+.activity-list-bottom-l{
+    text-align: left;
+    float: left;
+    width: 50%;
+}
+.activity-list-bottom-r{
+    text-align: right;
+    float: left;
+    width: 50%;
+    color:#f5bbcd;
+}
+.activity-list-bottom img{
+    width: 2rem;
+}
+.list-main-bg{
+    display: block;
+}
+.list-main-bg img{
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+}
+.list-main-cot{
+    margin:-30px 15px 0;
+    background-color: #fff;
+    border:1px solid #ddd;
+    z-index: 999;
+    border-radius: 5px;
+}
+.list-main-tittle{
+    height: 5rem;
+    line-height:5rem;
+    font-size: 3rem;
+    text-align: center;
+}
+.list-main-introduce li{
+    height: 2rem;
+    line-height: 2rem;
+}
+.list-main-introduce .introduce-btn{
+    height: 4rem;
+}
+/* .list-main-introduce .spanleft {
+    color:#999;
+} */
+.list-main-about{
+    margin-top: 2rem;
+    padding:0 20px;
+}
+.list-main-about-top{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.list-main-about-cot{
+    margin-top: 1rem;
+}
+.list-main-about-button{
+    position: fixed;
+    bottom: 0;
+    height: 4rem;
+    line-height: 4rem;
+    width: 100%;
+    background-color: #fff;
+    border-top:1px solid #eee;
+}
+.main-about-btn{
+    width:90%;
+    margin:.5rem 5%;
+    height: 3rem;
+    line-height: 3rem;
+    background-color:#f5bbcd;
+    border-radius: 5px;
+    color:#fff;
+    border:1px solid #f59cc4;
+}
+.index-main-about{
+    padding-bottom: 5rem;
+}
+.list-main-introduce span a{
+    margin-top: 1rem;
+}
+.index-main-tab .col-xs-4{
+    height: 10rem;
+    text-align: center;
+    padding-top:2.4rem;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.ic_party_post {
+    width: 34px;
+    height: 34px;
+    background-size: 34px 34px;
+    background-image: url(../images/icons/icAddAc@2x.png);
+    background-repeat: no-repeat;
+}
+.ic_article_post {
+    width: 34px;
+    height: 34px;
+    background-size: 34px 34px;
+    background-image: url(../images/icons/icWriteArticle@2x.png);
+    background-repeat: no-repeat;
+}
+.ic_party_search {
+    width: 34px;
+    height: 34px;
+    background-size: 34px 34px;
+    background-image: url(../images/icons/icSearchAc@2x.png);
+    background-repeat: no-repeat;
+}
+.ic_wsy_article_square {
+    width: 34px;
+    height: 34px;
+    background-size: 34px 34px;
+    background-image: url(../images/icons/invalidName@2x.png);
+    background-repeat: no-repeat;
+}
+.ic_teacher_search {
+    width: 34px;
+    height: 34px;
+    background-size: 34px 34px;
+    background-image: url(../images/icons/icSearchLecturer@2x.png);
+    background-repeat: no-repeat;
+}
+.ic_mygroup {
+    width: 34px;
+    height: 34px;
+    background-size: 34px 34px;
+    background-image: url(../images/icons/ic_mygroup@2x.png);
+    background-repeat: no-repeat;
+}
+.txt_leaf_menu {
+    font-size: 13px;
+    font-family: 'SFUIText-Medium';
+    margin-top: 5px;
+    font-weight: 700;
+}
+.im{
+    display: inline-block;
+    vertical-align: middle;
+}

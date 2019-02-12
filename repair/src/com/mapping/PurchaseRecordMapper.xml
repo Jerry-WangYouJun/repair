@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.PurchaseRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.model.PurchaseRecord" >
+    <id column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="card_number" property="cardNumber" jdbcType="VARCHAR" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="order_date" property="orderDate" jdbcType="DATE" />
+    <result column="purchase_money" property="purchaseMoney" jdbcType="DOUBLE" />
+    <result column="purchase_type" property="purchaseType" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    record_id, card_number, order_number, order_date, purchase_money, purchase_type, 
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from purchase_record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from purchase_record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.model.PurchaseRecord" >
+    insert into purchase_record (record_id, card_number, order_number, 
+      order_date, purchase_money, purchase_type, 
+      remark)
+    values (#{recordId,jdbcType=INTEGER}, #{cardNumber,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, 
+      #{orderDate,jdbcType=DATE}, #{purchaseMoney,jdbcType=DOUBLE}, #{purchaseType,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.PurchaseRecord" >
+    insert into purchase_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="cardNumber != null" >
+        card_number,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="orderDate != null" >
+        order_date,
+      </if>
+      <if test="purchaseMoney != null" >
+        purchase_money,
+      </if>
+      <if test="purchaseType != null" >
+        purchase_type,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="cardNumber != null" >
+        #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="purchaseMoney != null" >
+        #{purchaseMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="purchaseType != null" >
+        #{purchaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.PurchaseRecord" >
+    update purchase_record
+    <set >
+      <if test="cardNumber != null" >
+        card_number = #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        order_date = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="purchaseMoney != null" >
+        purchase_money = #{purchaseMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="purchaseType != null" >
+        purchase_type = #{purchaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.PurchaseRecord" >
+    update purchase_record
+    set card_number = #{cardNumber,jdbcType=VARCHAR},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      order_date = #{orderDate,jdbcType=DATE},
+      purchase_money = #{purchaseMoney,jdbcType=DOUBLE},
+      purchase_type = #{purchaseType,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+</mapper>

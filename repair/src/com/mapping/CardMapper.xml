@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.CardMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Card" >
+    <id column="card_id" property="cardId" jdbcType="INTEGER" />
+    <result column="card_name" property="cardName" jdbcType="VARCHAR" />
+    <result column="card_type" property="cardType" jdbcType="INTEGER" />
+    <result column="card_range" property="cardRange" jdbcType="INTEGER" />
+    <result column="card_number" property="cardNumber" jdbcType="VARCHAR" />
+    <result column="card_balance" property="cardBalance" jdbcType="DOUBLE" />
+    <result column="card_status" property="cardStatus" jdbcType="INTEGER" />
+    <result column="member_id" property="memberId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    card_id, card_name, card_type, card_range, card_number, card_balance, card_status, 
+    member_id, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from card
+    where card_id = #{cardId,jdbcType=INTEGER}
+  </select>
+  <select id="checkCardNumberIsAlreadyExist" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from card
+    where card_number = #{cardNumber,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getCompanyCode" parameterType="java.lang.String" resultType="java.lang.String">
+    select code from dic_company LIMIT 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from card
+    where card_id = #{cardId,jdbcType=INTEGER}
+  </delete>
+  <delete id="delCardWithIds" parameterType="java.lang.Long">
+    DELETE FROM card
+    WHERE card_id IN
+    <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.model.Card" >
+    insert into card (card_id, card_name, card_type, 
+      card_range, card_number, card_balance, 
+      card_status, member_id, remark
+      )
+    values (#{cardId,jdbcType=INTEGER}, #{cardName,jdbcType=VARCHAR}, #{cardType,jdbcType=INTEGER}, 
+      #{cardRange,jdbcType=INTEGER}, #{cardNumber,jdbcType=VARCHAR}, #{cardBalance,jdbcType=DOUBLE}, 
+      #{cardStatus,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Card" >
+    insert into card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cardId != null" >
+        card_id,
+      </if>
+      <if test="cardName != null" >
+        card_name,
+      </if>
+      <if test="cardType != null" >
+        card_type,
+      </if>
+      <if test="cardRange != null" >
+        card_range,
+      </if>
+      <if test="cardNumber != null" >
+        card_number,
+      </if>
+      <if test="cardBalance != null" >
+        card_balance,
+      </if>
+      <if test="cardStatus != null" >
+        card_status,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cardId != null" >
+        #{cardId,jdbcType=INTEGER},
+      </if>
+      <if test="cardName != null" >
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardRange != null" >
+        #{cardRange,jdbcType=INTEGER},
+      </if>
+      <if test="cardNumber != null" >
+        #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBalance != null" >
+        #{cardBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="cardStatus != null" >
+        #{cardStatus,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Card" >
+    update card
+    <set >
+      <if test="cardName != null" >
+        card_name = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        card_type = #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardRange != null" >
+        card_range = #{cardRange,jdbcType=INTEGER},
+      </if>
+      <if test="cardNumber != null" >
+        card_number = #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBalance != null" >
+        card_balance = #{cardBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="cardStatus != null" >
+        card_status = #{cardStatus,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where card_id = #{cardId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Card" >
+    update card
+    set card_name = #{cardName,jdbcType=VARCHAR},
+      card_type = #{cardType,jdbcType=INTEGER},
+      card_range = #{cardRange,jdbcType=INTEGER},
+      card_number = #{cardNumber,jdbcType=VARCHAR},
+      card_balance = #{cardBalance,jdbcType=DOUBLE},
+      card_status = #{cardStatus,jdbcType=INTEGER},
+      member_id = #{memberId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where card_id = #{cardId,jdbcType=INTEGER}
+  </update>
+</mapper>

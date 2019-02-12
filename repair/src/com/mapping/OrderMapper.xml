@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.model.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="card_number" jdbcType="VARCHAR" property="cardNumber" />
+    <result column="order_content" jdbcType="VARCHAR" property="orderContent" />
+    <result column="order_date" jdbcType="DATE" property="orderDate" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="order_money" jdbcType="DOUBLE" property="orderMoney" />
+    <result column="brokerage" jdbcType="VARCHAR" property="brokerage" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, order_number, card_number, order_content, order_date, duration, order_money, 
+    brokerage, remark , state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <select id="checkOrderNumberIsAlreadyExist" parameterType="java.lang.String" resultType="java.lang.String">
+    select card_number cardNumber from `order` WHERE card_number = #{number,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.model.Order">
+    insert into order (order_id, order_number, card_number, 
+      order_content, order_date, duration, 
+      order_money, brokerage, remark
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{cardNumber,jdbcType=VARCHAR}, 
+      #{orderContent,jdbcType=VARCHAR}, #{orderDate,jdbcType=DATE}, #{duration,jdbcType=VARCHAR}, 
+      #{orderMoney,jdbcType=DOUBLE}, #{brokerage,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Order">
+    insert into `order`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderNumber != null">
+        order_number,
+      </if>
+      <if test="cardNumber != null">
+        card_number,
+      </if>
+      <if test="orderContent != null">
+        order_content,
+      </if>
+        order_date,
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="orderMoney != null">
+        order_money,
+      </if>
+      <if test="brokerage != null">
+        brokerage,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNumber != null">
+        #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderContent != null">
+        #{orderContent,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="duration != null">
+        #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="orderMoney != null">
+        #{orderMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="brokerage != null">
+        #{brokerage,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Order">
+    update order
+    <set>
+      <if test="orderNumber != null">
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNumber != null">
+        card_number = #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderContent != null">
+        order_content = #{orderContent,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="orderMoney != null">
+        order_money = #{orderMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="brokerage != null">
+        brokerage = #{brokerage,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Order">
+    update order
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      card_number = #{cardNumber,jdbcType=VARCHAR},
+      order_content = #{orderContent,jdbcType=VARCHAR},
+      order_date = #{orderDate,jdbcType=DATE},
+      duration = #{duration,jdbcType=VARCHAR},
+      order_money = #{orderMoney,jdbcType=DOUBLE},
+      brokerage = #{brokerage,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>
