@@ -72,7 +72,7 @@ public class WebController {
 			session.removeAttribute("loginUser");
 			 session.removeAttribute("loginMember");
 			 session.removeAttribute("headImg");
-			return "forward:/new/person_center_no_login.jsp";
+			return "forward:/new/register.jsp";
 		}
 	}
 	
@@ -138,7 +138,7 @@ public class WebController {
 	
 	@RequestMapping("/workList")
 	public String workList(HttpServletRequest request ,HttpSession session  , String cardNumber) {
-		User m = (User)session.getAttribute("loginUser");
+		Member m = (Member)session.getAttribute("loginMember");
 		QueryData qo = new QueryData();
 		qo.setSearchName(m.getName());
 		List list = orderService.queryAllOrders(qo, new Pagination());
@@ -159,7 +159,6 @@ public class WebController {
 	
 	@RequestMapping("/notOverList")
 	public String notOverList(HttpServletRequest request ,HttpSession session  , String cardNumber) {
-		User m = (User)session.getAttribute("loginUser");
 		QueryData qo = new QueryData();
 		qo.setOrderState("待付款");
 		List list = orderService.queryAllOrders(qo, new Pagination());
@@ -199,4 +198,10 @@ public class WebController {
         }
         return order_subfix+order_fubfix;
     }
+	
+	
+	@RequestMapping("/registerInit")
+	public String registerInit(HttpServletRequest  request , HttpSession session ,String openId , String remark , Integer id  ) {
+		return "forward:/wx/registerInit.jsp";
+	}
 }

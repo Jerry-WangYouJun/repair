@@ -9,7 +9,6 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -19,18 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.ClientProtocolException;
-import org.dom4j.Document;
-import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.common.StringUtils;
-import com.model.User;
 import com.pay.config.WxPayConfig;
-import com.pay.msgreply.XMLUtil;
 import com.pay.util.CommonUtil;
 import com.pay.util.OrderUtils;
 import com.pay.util.RequestHandler;
@@ -140,7 +134,7 @@ public class WeixinPayController {
 			        try{
 			        		userInfo = getUserInfo(request, response);
 			        }catch(Exception e){
-			        	System.out.println("获取用户信息失败或网络异常");
+			        		 System.out.println("获取用户信息失败或网络异常");
 			          	 return "forward:/web/registerInit?openId=1" ;
 			        }
 		              String  openId = userInfo.getString("openid");
@@ -152,7 +146,7 @@ public class WeixinPayController {
 		        JSONObject jsonObject = WXAuthUtil.doGetJson(infoUrl);
 		           if("0".equals(jsonObject.getString("subscribe"))){     
 			        	   System.out.println("没有关注");
-			        	   return "forward:/wx/focus.jsp";
+			        	   return "forward:/article/focus.jsp";
 		           }else{
 			           return "forward:/web/wxlogin?openId="+ openId + "&&headImg=" + userInfo.getString("headimgurl") ;
 		           }

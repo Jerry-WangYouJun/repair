@@ -15,7 +15,7 @@ public class WxPayConfig {
 	/**
 	 * 商户号（mch_id）
 	 */
-	public static String partner = "1448494802";
+	public static String partner = "1522866031";
 	
 	public static String partnerkey = "zhangxinzhao1980zxcvzhangxinzhao";
 	

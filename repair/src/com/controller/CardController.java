@@ -25,6 +25,7 @@ import com.model.Card;
 import com.model.CardAttribute;
 import com.model.CardType;
 import com.model.Grid;
+import com.model.Member;
 import com.model.OrderAttribute;
 import com.model.Pagination;
 import com.model.QueryData;
@@ -117,8 +118,8 @@ public class CardController {
         PrintWriter out;
         JSONObject json = new JSONObject();
         try {
-        	    User user = (User )session.getAttribute("loginUser");
-            order.setBrokerage(user.getName());
+        	    Member member = (Member)session.getAttribute("loginMember");
+            order.setBrokerage(member.getName());
             //order.setOrderNumber(getNewOrderNumber(session));
             Card card = service.querySingleCard(order.getCardNumber());
             BigDecimal money = new BigDecimal(card.getCardBalance());
