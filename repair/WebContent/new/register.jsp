@@ -20,6 +20,7 @@
 		<div class="container" >
 			<div class="services">
 				<div class="col-sm-12 col-xs-12 login_left">
+					
 					<div><h3>尚未注册，请先注册</h3></div>
 					<form id="dataForm">
 					<input type="hidden" class="form-control" name="memberId" id="memberId" value="${loginMember.memberId}">

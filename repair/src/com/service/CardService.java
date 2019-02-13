@@ -33,6 +33,7 @@ public class CardService {
     }
 
     public int insertCard(Card card) {
+    		card.setCardStatus(0);
     		return mapper.insert(card);
     }
 
