@@ -59,4 +59,9 @@ public class UserService {
 	public User selectUserById(Integer id) {
 		return userMapper.selectByPrimaryKey(id);
 	}
+
+	public void updateRole(String openid ,  String  table , Integer role) {
+		
+		dao.updateRole(openid , table , role);
+	}
 }

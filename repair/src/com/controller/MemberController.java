@@ -68,7 +68,7 @@ public class MemberController {
                 userService.insertUser(user);
             }else{
                 service.updateMember(member);
-                user.setUsername(member.getMemberCode());
+                user.setUsername(member.getPhone());
                 user = userService.queryByWhere(user).get(0);
                 user.setRoleId(member.getRole());
                 userService.updateUser(user);

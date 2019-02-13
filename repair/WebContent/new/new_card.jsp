@@ -24,23 +24,24 @@
 					<form id="dataForm">
 					<input type="hidden" class="form-control" name="memberId" id="memberId" value="${loginMember.memberId}">
 					<input  class="form-control" name="cardId" id="cardId" type="hidden"></input>
+					<input type="hidden" name="cardType" value = "7">
 						<div class="form-group">
-							<label for="recipient-name" class="control-label">卡号:</label> <input
+							<label for="recipient-name" class="control-label">卡号(必填):</label> <input
 								type="text" class="form-control" name="cardNumber" id="cardNumber" onchange="checkCard()" >
 						</div>
 						<div class="form-group">
-							<label for="recipient-name" class="control-label">卡密码:</label> <input
+							<label for="recipient-name" class="control-label">卡密码(必填):</label> <input
 								type="text" class="form-control" name="pwd" id="pwd"  onchange="checkCard()"  >
 						</div>
 						<div class="form-group">
 							<label for="recipient-name" class="control-label">卡名称:</label> <input
 								type="text" class="form-control" name="cardName" id="cardName" >
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label for="message-text" class="control-label">卡类型:</label>
 							<select class="form-control"  id ="cardType" name="cardType">
 					        </select>	
-						</div>
+						</div> -->
 						<!-- <div class="form-group">
 							<label for="message-text" class="control-label">状态:</label>
 							<select class="form-control"  id ="cardStatus" name="cardStatus">
@@ -66,6 +67,12 @@
 </body>
 <script type="text/javascript">
 		function subInfo(){
+			var cardno = $("#cardNumber").val() ; 
+			 var pwd = $("#pwd").val();
+			 if(cardno == '' || pwd == ''){
+				  alert("卡号和密码必填，请提供正确的卡信息进行验证");
+				  return false;
+			 }
 			subInfoAll("card");
 		}
 		

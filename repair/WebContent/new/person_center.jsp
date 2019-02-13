@@ -32,7 +32,7 @@
         </div>
 
         <div class="other_info_mc">
-            <div class="name_other_imc">${loginUser.username}</div>
+            <div class="name_other_imc">${loginMember.name}</div>
             <div class="tel_other_imc">
                 <span class="major_icon general_icon"></span>
                 <span class="major_title general_title">${loginUser.roleName}</span>

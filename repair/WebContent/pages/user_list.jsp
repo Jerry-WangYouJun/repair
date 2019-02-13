@@ -45,9 +45,10 @@
 				<div class="modal-body">
 					<form id="dataForm">
 					 <input  class="form-control" name="userId" id="userId" type="hidden"></input>
+					 <input  class="form-control" name="openid" id="openid" type="hidden"></input>
 						<div class="form-group">
 							<label for="recipient-name" class="control-label">登录名:</label> <input
-								type="text" class="form-control" name="username" id="username" disabled>
+								type="text" class="form-control" name="username" id="username" readonly="readonly">
 						</div>
 						<div class="form-group">
 							<label for="recipient-name" class="control-label">密码:</label> <input
@@ -55,7 +56,7 @@
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="control-label">用户名称:</label>
-								<input type="text" class="form-control" name="name" id="name">
+								<input type="text" class="form-control" name="name" id="name" readonly="readonly">
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="control-label">用户角色:</label>

@@ -20,6 +20,7 @@ import com.model.Pagination;
 import com.model.QueryData;
 import com.model.Role;
 import com.model.User;
+import com.service.MemberService;
 import com.service.UserService;
 
 import net.sf.json.JSONObject;
@@ -101,6 +102,7 @@ public class UserController {
 				service.insertUser(user);
 			}else{
 				service.updateUser(user);
+				service.updateRole(user.getOpenid() , "member" , user.getRoleId());
 			}
 			out = response.getWriter();
 			JSONObject json = new JSONObject();

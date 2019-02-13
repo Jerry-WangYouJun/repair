@@ -91,4 +91,14 @@ public class UserDao {
 		});
 		return list;
 	}
+
+	public void updateRole(String openid, String table , Integer role ) {
+		 String updatesqlTemp = "";
+		 if("member".equals(table)) {
+			 updatesqlTemp = "update member set role = " + role  + " where open_id = '" + openid  + "'"; 
+		 }else {
+			 updatesqlTemp = "update user set role_id = " + role  + " where openid = '" + openid  + "'"; 
+		 }
+	        jdbcTemplate.update(updatesqlTemp);
+	}
 }
