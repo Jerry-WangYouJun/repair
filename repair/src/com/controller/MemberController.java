@@ -21,6 +21,8 @@ import com.model.MemberAttribute;
 import com.model.Pagination;
 import com.model.QueryData;
 import com.model.User;
+import com.pay.util.NoticeUtil;
+import com.pay.util.WXAuthUtil;
 import com.service.MemberService;
 import com.service.UserService;
 
@@ -66,6 +68,7 @@ public class MemberController {
                 user.setOpenid(member.getOpenId());
                 user.setRoleId(member.getRole());
                 userService.insertUser(user);
+                WXAuthUtil.sendTemplateMsg(NoticeUtil.registerSuccess(member));
             }else{
                 service.updateMember(member);
                 user.setUsername(member.getPhone());
