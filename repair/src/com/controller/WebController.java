@@ -107,7 +107,10 @@ public class WebController {
 	}
 	
 	@RequestMapping("/updateMember")
-	public String updateMember(HttpServletRequest request , HttpSession session , String openid ) {
+	public String updateMember(HttpServletRequest request , HttpSession session , Integer id ) {
+		User user = userService.selectUserById(id);
+		Member member = memberService.queryMemberByCode(user.getName());
+		request.setAttribute("", member);
 		return "forward:/new/register.jsp";
 	}
 	

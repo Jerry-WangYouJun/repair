@@ -58,6 +58,7 @@ public class MemberController {
         try {
             if ("".equals(member.getMemberId()) || null==member.getMemberId()){
                 member.setMemberCode(getNewMemberCode());
+                member.setRole(3);
                 service.insertMember(member);
                 user.setUsername(member.getPhone());
                 user.setPassword("123");

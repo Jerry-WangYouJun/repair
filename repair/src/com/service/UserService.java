@@ -55,4 +55,8 @@ public class UserService {
 	public void delUserWithIds(List<String> ids) {
 		userMapper.delUserWithIds(ids);
 	}
+	
+	public User selectUserById(Integer id) {
+		return userMapper.selectByPrimaryKey(id);
+	}
 }
