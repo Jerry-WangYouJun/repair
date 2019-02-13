@@ -14,18 +14,6 @@
 <script src="${basePath}/js/jquery-3.1.1.min.js"></script>
 <script src="${basePath}/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-	wx.config({  
-	    debug: false,  
-	    appId: '${ret.appId}',  
-	    timestamp:'${ret.timestamp}',  
-	    nonceStr:'${ret.nonceStr}',  
-	    signature:'${ret.signature}',  
-	    jsApiList : [ 'scanQRCode' ]  
-	});//end_config  
-	
-	wx.error(function(res) {  
-	    alert("出错了：" + res.errMsg);  
-	});  
 	
 
     //扫描二维码  
