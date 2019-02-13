@@ -93,7 +93,7 @@ public class CardController {
         PrintWriter out;
         try {
             if ("".equals(card.getCardId()) || null==card.getCardId()){
-                card.setCardNumber(getNewCardNumber());
+                //card.setCardNumber(getNewCardNumber());
                 CardType type = cardTypeMapper.selectByPrimaryKey(card.getCardType());
                 card.setCardBalance(type.getBonus());
                 service.insertCard(card);
