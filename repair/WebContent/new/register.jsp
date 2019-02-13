@@ -76,8 +76,7 @@
 				success : function(data) {
 					if (data.success) {
 						alert(data.msg);
-						window.location.href="${pageContext.request.contextPath}/web/checkUser?username="
-								+ $("#username").val() + "&password=" + $("#password").val() ;
+						window.location.href="${pageContext.request.contextPath}/web/wxlogin?openId=${openid}&headImg=${headImg}";
 					} else {
 						alert(data.msg);
 					}

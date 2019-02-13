@@ -78,7 +78,6 @@ public class WebController {
 			request.setAttribute("openid", openId);
 			session.removeAttribute("loginUser");
 			 session.removeAttribute("loginMember");
-			 session.removeAttribute("headImg");
 			return "forward:/new/register.jsp";
 		}
 	}
