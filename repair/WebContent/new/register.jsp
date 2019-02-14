@@ -97,9 +97,7 @@
          		$("#idCard").val("")
              return false;
         		 } 
-		    $("button").attr("disabled","disabled")
 		    check_unique('idCard');
-		    $("button").attr("disabled","")
 		}
 		
 		function checkTelephone(){

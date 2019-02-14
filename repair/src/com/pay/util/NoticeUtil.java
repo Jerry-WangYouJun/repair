@@ -59,7 +59,7 @@ public class NoticeUtil {
 	        tem.setTemplateParamList(paras);  
 	        tem.setToUser(member.getOpenId());//用户openid
 	        //设置超链接
-	        tem.setUrl("http://suxiu110.cn/wx/weblogin" );  
+	        tem.setUrl("http://suxiu110.cn/wx/index" );  
 	        return tem;
 	}
 //	

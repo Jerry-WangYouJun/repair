@@ -7,6 +7,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/new/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/new/css/style.css">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/new/css/index-info.css">
