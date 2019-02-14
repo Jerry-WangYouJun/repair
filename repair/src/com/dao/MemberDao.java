@@ -79,6 +79,9 @@ public class MemberDao {
         if(StringUtils.isNotEmpty(qo.getSearchPhone()) ) {
             whereSql += " and   m.phone  like   '%" + qo.getSearchPhone().trim() + "%' ";
         }
+        if(StringUtils.isNotEmpty(qo.getSearchCardNumber()) ) {
+            whereSql += " and   m.member_id  = ( select member_id from card where card_number =  '" + qo.getSearchCardNumber().trim() + "' ) ";
+        }
         return whereSql ;
     }
 }

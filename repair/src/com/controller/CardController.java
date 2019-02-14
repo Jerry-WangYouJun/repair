@@ -30,7 +30,10 @@ import com.model.OrderAttribute;
 import com.model.Pagination;
 import com.model.QueryData;
 import com.model.User;
+import com.pay.util.NoticeUtil;
+import com.pay.util.WXAuthUtil;
 import com.service.CardService;
+import com.service.MemberService;
 import com.service.OrderService;
 import com.service.PurchaseRecordService;
 
@@ -51,6 +54,9 @@ public class CardController {
     
     @Autowired
     private CardTypeMapper cardTypeMapper;
+    
+    @Autowired
+    private  MemberService memberService;
 
     @Autowired
     private PurchaseRecordService recordService;
@@ -121,13 +127,17 @@ public class CardController {
         	    Member member = (Member)session.getAttribute("loginMember");
             order.setBrokerage(member.getName());
             //order.setOrderNumber(getNewOrderNumber(session));
-            Card card = service.querySingleCard(order.getCardNumber());
-            BigDecimal money = new BigDecimal(card.getCardBalance());
-            money = money.subtract(new BigDecimal(order.getOrderMoney()));
+//            Card card = service.querySingleCard(order.getCardNumber());
+//            BigDecimal money = new BigDecimal(card.getCardBalance());
+//            money = money.subtract(new BigDecimal(order.getOrderMoney()));
             order.setState("待付款");
             orderService.insertConsumeOrder(order);
             recordService.insertConsumeRecord(order,"consume");
-            service.updateCardBalance(order.getCardNumber(),money);
+            QueryData qo = new QueryData();
+            qo.setSearchCardNumber(order.getCardNumber());
+            Member custMaster = memberService.queryAllMembers(qo, new Pagination()).get(0);
+//            service.updateCardBalance(order.getCardNumber(),money);
+            WXAuthUtil.sendTemplateMsg(NoticeUtil.confirmPay(order , custMaster.getOpenId()));
             out = response.getWriter();
             json.put("msg", "操作成功");
             json.put("success", true);
@@ -135,8 +145,7 @@ public class CardController {
             out.flush();
             out.close();
         } catch (IOException e) {
-            e.printStackTrace();
-            
+            System.out.println("出现异常" + e.getMessage());
         }
     }
 

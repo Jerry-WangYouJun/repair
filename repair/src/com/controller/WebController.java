@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +23,12 @@ import com.common.StringUtils;
 import com.model.Card;
 import com.model.CardAttribute;
 import com.model.Member;
+import com.model.Order;
 import com.model.Pagination;
 import com.model.QueryData;
 import com.model.User;
+import com.pay.util.NoticeUtil;
+import com.pay.util.WXAuthUtil;
 import com.service.CardService;
 import com.service.MemberService;
 import com.service.OrderService;
@@ -156,7 +160,7 @@ public class WebController {
 	}
 	
 	@RequestMapping("/custNotOverList")
-	public String custNotOverList(HttpServletRequest request ,HttpSession session ) {
+	public String custNotOverList(HttpServletRequest request ,HttpSession session , String memberCode ) {
 		Member m = (Member)session.getAttribute("loginMember");
 		QueryData qo = new QueryData();
 		qo.setMbmberId(m.getMemberId());
@@ -187,7 +191,20 @@ public class WebController {
 	
 	@RequestMapping("/updateOrderState")
 	public String updateOrderState(HttpServletRequest request ,HttpSession session  , String orderNumber , String state) throws UnsupportedEncodingException{
+		try {
 		orderService.updateOrderState(orderNumber ,  new String(state.getBytes("ISO-8859-1"),"UTF-8"));
+		QueryData qo = new QueryData();
+		qo.setSearchOrderNumber(orderNumber);
+		Order order = orderService.queryAllOrders(qo, new Pagination()).get(0) ;
+		Card card = service.querySingleCard(order.getCardNumber());
+         BigDecimal money = new BigDecimal(card.getCardBalance());
+         money = money.subtract(new BigDecimal(order.getOrderMoney()));
+         service.updateCardBalance(order.getCardNumber(),money);
+         Member custMaster = memberService.queryAllMembers(qo, new Pagination()).get(0);
+			WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
+		} catch (Exception e) {
+			 System.out.println("出现异常" + e.getMessage());
+		} 
 		return "forward:/web/custNotOverList";
 	}
 	
