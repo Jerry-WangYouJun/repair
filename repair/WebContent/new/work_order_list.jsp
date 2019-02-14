@@ -49,6 +49,9 @@
 							<c:if test="${loginUser.roleId eq '3' }">
 								<c:if test="${order.state eq '待付款' }">
 									<button style="color:black;" onclick="updateState('${order.orderNumber }','已付款')">确认付款</button>
+									 <c:if test="${order.orderNumber eq orderNow }">
+										  ${msg}
+									 </c:if>
 								</c:if>
 							</c:if>
 							

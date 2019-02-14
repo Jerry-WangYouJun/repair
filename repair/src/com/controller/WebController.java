@@ -203,18 +203,25 @@ public class WebController {
 	@RequestMapping("/updateOrderState")
 	public String updateOrderState(HttpServletRequest request ,HttpSession session  , String orderNumber , String state) throws UnsupportedEncodingException{
 		try {
-		orderService.updateOrderState(orderNumber ,  new String(state.getBytes("ISO-8859-1"),"UTF-8"));
 		QueryData qo = new QueryData();
 		qo.setSearchOrderNumber(orderNumber);
 		Order order = orderService.queryAllOrders(qo, new Pagination()).get(0) ;
 		Card card = service.querySingleCard(order.getCardNumber());
          BigDecimal money = new BigDecimal(card.getCardBalance());
          money = money.subtract(new BigDecimal(order.getOrderMoney()));
-         service.updateCardBalance(order.getCardNumber(),money);
+         int flag = money.compareTo(BigDecimal.ZERO); 
          qo = new QueryData();
          qo.setSearchCardNumber(order.getCardNumber());
          Member custMaster = memberService.queryAllMembers(qo, new Pagination()).get(0);
-			WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
+         if(flag == 1){
+        	 orderService.updateOrderState(orderNumber ,  new String(state.getBytes("ISO-8859-1"),"UTF-8"));
+        	 service.updateCardBalance(order.getCardNumber(),money);
+        	 WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
+         }else{
+        	 request.setAttribute("msg", "付款失败，余额不足");
+        	 request.setAttribute("orderNow", order.getOrderNumber());
+        	 WXAuthUtil.sendTemplateMsg(NoticeUtil.failPay(order , custMaster));
+         }
 		} catch (Exception e) {
 			 System.out.println("出现异常" + e.getMessage());
 		} 

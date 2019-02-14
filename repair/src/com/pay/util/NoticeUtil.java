@@ -66,7 +66,7 @@ public class NoticeUtil {
 
 	public static Template successPay(Order order, Member custMaster) {
 		Template tem=new Template();  
-        tem.setTemplateId(confirmPay);  
+        tem.setTemplateId(paySuccess);  
         tem.setTopColor("#000000");  
                   
         List<TemplateParam> paras=new ArrayList<TemplateParam>();  
@@ -83,4 +83,22 @@ public class NoticeUtil {
         return tem;
 	}
 
+	public static Template failPay(Order order, Member custMaster) {
+		Template tem=new Template();  
+        tem.setTemplateId(paySuccess);  
+        tem.setTopColor("#000000");  
+                  
+        List<TemplateParam> paras=new ArrayList<TemplateParam>();  
+        paras.add(new TemplateParam("first","您好！付款失败，余额不足。","#333"));  
+        paras.add(new TemplateParam("keyword1", custMaster.getName(),"#333"));
+        paras.add(new TemplateParam("keyword2", order.getOrderContent(),"#333"));
+        paras.add(new TemplateParam("keyword3", order.getOrderMoney() + "","#333"));
+        paras.add(new TemplateParam("keyword4", DateUtils.getToday(),"#333"));
+        paras.add(new TemplateParam("remark","感谢你对山东速修信息的支持!!!","#333"));  
+        tem.setTemplateParamList(paras);  
+        tem.setToUser(custMaster.getOpenId());
+        //设置超链接
+        tem.setUrl("http://suxiu110.cn/wx/index" );  
+        return tem;
+	}
 }
