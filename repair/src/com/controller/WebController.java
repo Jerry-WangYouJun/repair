@@ -189,6 +189,17 @@ public class WebController {
 		return "forward:/new/work_order_list.jsp";
 	}
 	
+	@RequestMapping("/carRecords")
+	public String carRecords(HttpServletRequest request ,HttpSession session  , String cardNumber) {
+		Member m = (Member)session.getAttribute("loginMember");
+		QueryData qo = new QueryData();
+		qo.setMbmberId(m.getMemberId());
+		qo.setSearchCardNumber(cardNumber);
+		List list = orderService.queryAllOrders(qo, new Pagination());
+		request.setAttribute("list", list);
+		return "forward:/new/work_order_list.jsp";
+	}
+	
 	@RequestMapping("/updateOrderState")
 	public String updateOrderState(HttpServletRequest request ,HttpSession session  , String orderNumber , String state) throws UnsupportedEncodingException{
 		try {

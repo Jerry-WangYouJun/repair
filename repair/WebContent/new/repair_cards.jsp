@@ -23,6 +23,10 @@
 		    	}
 		    	window.location.href='${basePath}/card/xinfu_wechat_pay?iccid=${info.ICCID}';
 	    }
+	    
+	    function queryCardRecord(cardNumber){
+	   	 	window.location.href='${basePath}/web/carRecords?cardNumber=' + cardNumber;
+	    }
 </script>
 </head>
 <body>
@@ -36,7 +40,7 @@
 			<c:forEach items="${cardList}" var = "card">
 				<div class="row container">
 					<section class="panel">
-						<div class="twt-feed blue-bg">
+						<div class="twt-feed blue-bg" onclick="queryCardRecord('${card.cardNumber}')">
 							<h1> 卡号： 
 								<c:if test="${empty card.cardName }">
 									${card.cardNumber }
