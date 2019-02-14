@@ -200,6 +200,8 @@ public class WebController {
          BigDecimal money = new BigDecimal(card.getCardBalance());
          money = money.subtract(new BigDecimal(order.getOrderMoney()));
          service.updateCardBalance(order.getCardNumber(),money);
+         qo = new QueryData();
+         qo.setSearchCardNumber(order.getCardNumber());
          Member custMaster = memberService.queryAllMembers(qo, new Pagination()).get(0);
 			WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
 		} catch (Exception e) {
