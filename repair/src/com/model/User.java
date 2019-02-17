@@ -9,6 +9,7 @@ public class User {
 	  private String roleCode;
 	  private String roleName;
 	  private String openid;
+	  Member member ;
 
 
 	public String getUsername() {
@@ -73,6 +74,20 @@ public class User {
 
 	public void setOpenid(String openid) {
 		this.openid = openid;
+	}
+
+	public Member getMember() {
+		if(member == null) {
+			 member = new Member();
+		}
+		return member;
+	}
+
+	public void setMember(Member member) {
+		if(member == null) {
+			 member = new Member();
+		}
+		this.member = member;
 	}
 	
 }

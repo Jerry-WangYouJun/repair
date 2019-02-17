@@ -47,7 +47,7 @@
 					 <input  class="form-control" name="userId" id="userId" type="hidden"></input>
 					 <input  class="form-control" name="openid" id="openid" type="hidden"></input>
 						<div class="form-group">
-							<label for="recipient-name" class="control-label">登录名:</label> <input
+							<label for="recipient-name" class="control-label">登录账号:</label> <input
 								type="text" class="form-control" name="username" id="username" readonly="readonly">
 						</div>
 						<div class="form-group">
@@ -55,7 +55,7 @@
 								type="texts" class="form-control" name="password" id="password">
 						</div>
 						<div class="form-group">
-							<label for="message-text" class="control-label">用户名称:</label>
+							<label for="message-text" class="control-label">手机号:</label>
 								<input type="text" class="form-control" name="name" id="name" readonly="readonly">
 						</div>
 						<div class="form-group">
@@ -112,7 +112,23 @@
 				},{
 					field : 'username',   title : '用户账号',  align: 'center',   valign: 'middle'
 				},{
-                    field : 'name',   title : '用户名称',   align: 'center', valign: 'middle'
+                    field : 'memberName' ,  title : '用户姓名',   align: 'center', valign: 'middle' ,
+                    formatter:function(value,row,index){
+                    		if(row.member){
+	                    		return row.member.name
+                    		}else{
+                    			return "";
+                    		}
+                    }
+                },{
+                    field : 'memberPhone',   title : '用户手机号',   align: 'center', valign: 'middle' ,
+                    formatter:function(value,row,index){
+                		if(row.member){
+                    		return row.member.phone
+                		}else{
+                			return "";
+                		}
+                }
                 },{
 					field : 'roleName',   title : '用户角色',  align: 'center',   valign: 'middle'}
 					],

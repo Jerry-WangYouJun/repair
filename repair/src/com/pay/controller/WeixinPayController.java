@@ -350,7 +350,8 @@ public class WeixinPayController {
 			model.addAttribute("bizOrderId", orderId);
 			model.addAttribute("orderId", orderId);
 			model.addAttribute("payPrice", total_fee);
-			model.addAttribute("iccid", orderId.substring(2, orderId.length()- 8));
+			model.addAttribute("cardNumber", orderId.substring(2, orderId.length()- 8));
+			model.addAttribute("fee", totalFee);
 			return "/jsapi";
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

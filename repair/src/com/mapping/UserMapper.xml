@@ -8,7 +8,12 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="openid" jdbcType="VARCHAR" property="openid" />
+     <association property="member" column="openid" javaType="com.model.Member" select="selectMember"/>
   </resultMap>
+   <select id="selectMember" parameterType="java.lang.String" resultType="com.model.Member">
+    select  * from  member
+    where open_id = #{openid}
+  </select>
   <sql id="Base_Column_List">
     user_id, username, password, name, role_id ,openid
   </sql>

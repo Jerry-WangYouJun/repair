@@ -43,7 +43,8 @@ public class UserDao {
 	}
 
 	public List<User> queryAllUsers() {
-		String sql = "select u.*,r.role_code,r.role_name  from user u left join role r on u.role_id=r.role_id  " ;
+		String sql = "select u.*,r.role_code,r.role_name  , b.name mamberName , b.phone from user u left join role r on u.role_id=r.role_id  "
+				+ "  left join member b on u.openid = b.open_id " ;
 		final  List<User> list =   new ArrayList<>();
 		jdbcTemplate.query(sql, new RowMapper() {
 			public Object mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -56,6 +57,8 @@ public class UserDao {
 				user.setRoleName(rs.getString("role_name"));
 				user.setOpenid(rs.getString("openid"));
 				user.setPassword(rs.getString("password"));
+				user.getMember().setName(rs.getString("mamberName"));
+				user.getMember().setPhone(rs.getString("phone"));
 				list.add(user);
 				return null ;
 			}
