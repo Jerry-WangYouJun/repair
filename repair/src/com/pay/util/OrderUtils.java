@@ -11,7 +11,7 @@ import java.util.Date;
 public class OrderUtils {
 	
 	public static String genOrderNo(String iccid){
-		String orderNo = "fn" + iccid + "";
+		String orderNo = "PW" + iccid + "";
 		SimpleDateFormat sdf=new SimpleDateFormat("MMddhhmm");
 		String nowTime = sdf.format(new Date());
 		orderNo+= nowTime;

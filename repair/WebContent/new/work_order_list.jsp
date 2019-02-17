@@ -50,7 +50,7 @@
 								<c:if test="${order.state eq '待付款' }">
 									<button style="color:black;" onclick="updateState('${order.orderNumber }','已付款')">确认付款</button>
 									 <c:if test="${order.orderNumber eq orderNow }">
-										  ${msg}
+										  ${msg}<button style="color:black;" onclick="updateState('${order.orderNumber }','已付款')">去充值</button>
 									 </c:if>
 								</c:if>
 							</c:if>

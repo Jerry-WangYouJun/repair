@@ -17,7 +17,7 @@ public class WxPayConfig {
 	 */
 	public static String partner = "1522866031";
 	
-	public static String partnerkey = "zhangxinzhao1980zxcvzhangxinzhao";
+	public static String partnerkey = "913ce023fce569f1c71bc5c0b9ae5a9a";
 	
 	/**
 	 * 交易类型

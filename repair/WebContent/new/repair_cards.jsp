@@ -27,6 +27,11 @@
 	    function queryCardRecord(cardNumber){
 	   	 	window.location.href='${basePath}/web/carRecords?cardNumber=' + cardNumber;
 	    }
+	    
+	    function payCard(cardNumber){
+	    	event.stopPropagation();
+	    		window.location.href='${basePath}/web/pay?cardNumber=' + cardNumber;
+	    }
 </script>
 </head>
 <body>
@@ -40,8 +45,8 @@
 			<c:forEach items="${cardList}" var = "card">
 				<div class="row container">
 					<section class="panel">
-						<div class="twt-feed blue-bg" onclick="queryCardRecord('${card.cardNumber}')">
-							<h1> 卡号： 
+						<div class="twt-feed blue-bg" >
+							<h1 onclick="queryCardRecord('${card.cardNumber}')"> 卡号： 
 								<c:if test="${empty card.cardName }">
 									${card.cardNumber }
 								</c:if>
@@ -54,6 +59,10 @@
 									<li class="active">
 										<h5> 卡内余额： ${card.cardBalance } 
 										</h5>
+									</li>
+									<li class="active">
+										<h1>  <button style="background-color: #6a74ec" type="button" onclick="payCard('${card.cardNumber}')">充值</button>
+										</h1>
 									</li>
 								</ul>
 							</div>

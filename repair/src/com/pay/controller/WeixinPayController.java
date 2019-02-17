@@ -81,41 +81,6 @@ public class WeixinPayController {
        
   	}
 	
-	/**
-	 * 微信网页授权获取用户基本信息，先获取 code，跳转 url 通过 code 获取 openId
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping("/userAuth")
-	public String userAuth(HttpServletRequest request, HttpServletResponse response){
-		try {
-			String iccid = request.getParameter("iccid");
-			String orderId = OrderUtils.genOrderNo(iccid);
-			String totalFee = request.getParameter("totalFee");
-			//String totalFee = "0.01";
-			System.out.println("in userAuth,orderId:" + orderId);
-			
-			//授权后要跳转的链接
-			String backUri = baseUrl + "/wx/toPay";
-			backUri = backUri + "?orderId=" + orderId+"&totalFee="+totalFee;
-			//URLEncoder.encode 后可以在backUri 的url里面获取传递的所有参数
-			backUri = URLEncoder.encode(backUri);
-			//scope 参数视各自需求而定，这里用scope=snsapi_base 不弹出授权页面直接授权目的只获取统一支付接口的openid
-			String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-					"appid=" + WxPayConfig.appid +
-					"&redirect_uri=" +
-					 backUri+
-					"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
-			System.out.println("url:" + url);
-			response.sendRedirect(url);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	
 	@RequestMapping("/index")
 	public String act(HttpServletRequest request, HttpServletResponse response){
 		//授权后要跳转的链接
@@ -226,6 +191,40 @@ public class WeixinPayController {
 	                return userInfo;
 	}
 	
+	/**
+	 * 微信网页授权获取用户基本信息，先获取 code，跳转 url 通过 code 获取 openId
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/userAuth")
+	public String userAuth(HttpServletRequest request, HttpServletResponse response){
+		try {
+			String cardNumber = request.getParameter("cardNumber");
+			String orderId = OrderUtils.genOrderNo(cardNumber);
+			String totalFee = request.getParameter("totalFee");
+			 totalFee = "0.01";
+			System.out.println("in userAuth,orderId:" + orderId);
+			
+			//授权后要跳转的链接
+			String backUri = baseUrl + "/wx/toPay";
+			backUri = backUri + "?orderId=" + orderId+"&totalFee="+totalFee;
+			//URLEncoder.encode 后可以在backUri 的url里面获取传递的所有参数
+			backUri = URLEncoder.encode(backUri);
+			//scope 参数视各自需求而定，这里用scope=snsapi_base 不弹出授权页面直接授权目的只获取统一支付接口的openid
+			String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+					"appid=" + WxPayConfig.appid +
+					"&redirect_uri=" +
+					 backUri+
+					"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+			System.out.println("url:" + url);
+			response.sendRedirect(url);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@RequestMapping("/toPay")
 	public String toPay(HttpServletRequest request, HttpServletResponse response, Model model){
 		try {
@@ -247,15 +246,8 @@ public class WeixinPayController {
 				  return null ;
 			}
 			//获取统一下单需要的openid
-			String openId ="";
-			String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
-					+ WxPayConfig.appid + "&secret=" + WxPayConfig.appsecret + "&code=" + code + "&grant_type=authorization_code";
-			System.out.println("URL:"+URL);
-			JSONObject jsonObject = CommonUtil.httpsRequest(URL, "GET", null);
-				if (null != jsonObject) {
-					openId = jsonObject.getString("openid");
-					System.out.println("openId:" + openId);
-				}
+			String openId =getOpenId(code);
+			
 			
 			//获取openId后调用统一支付接口https://api.mch.weixin.qq.com/pay/unifiedorder
 			//随机数 
@@ -364,6 +356,24 @@ public class WeixinPayController {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param code 网页授权后获取传递的参数
+	 * @return
+	 */
+	private String getOpenId(String code) {
+		String openId = "";
+		String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
+				+ WxPayConfig.appid + "&secret=" + WxPayConfig.appsecret + "&code=" + code + "&grant_type=authorization_code";
+		System.out.println("URL:"+URL);
+		JSONObject jsonObject = CommonUtil.httpsRequest(URL, "GET", null);
+		if (null != jsonObject) {
+			openId = jsonObject.getString("openid");
+			System.out.println("openId:" + openId);
+		}
+		return openId ;
 	}
 	
 

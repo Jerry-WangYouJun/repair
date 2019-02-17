@@ -251,6 +251,13 @@ public class WebController {
 		return "forward:/wx/registerInit.jsp";
 	}
 	
+	@RequestMapping("/pay")
+	public String pay(HttpServletRequest  request , HttpSession session , String cardNumber ) {
+		request.setAttribute("cardNumber", cardNumber);
+		return "forward:/wx/xfpay.jsp";
+	}
+	
+	
 	/**
 	 * 
 	 * @param request
