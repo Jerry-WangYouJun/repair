@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -164,6 +163,7 @@ public class WebController {
 		Member m = (Member)session.getAttribute("loginMember");
 		QueryData qo = new QueryData();
 		qo.setMbmberId(m.getMemberId());
+		qo.setSearchName(m.getName());
 		qo.setOrderState("待付款");
 		List list = orderService.queryAllOrders(qo, new Pagination());
 		request.setAttribute("list", list);
@@ -172,8 +172,10 @@ public class WebController {
 	
 	@RequestMapping("/notOverList")
 	public String notOverList(HttpServletRequest request ,HttpSession session  , String cardNumber) {
+		Member m = (Member)session.getAttribute("loginMember");
 		QueryData qo = new QueryData();
 		qo.setOrderState("待付款");
+		qo.setMbmberId(m.getMemberId());
 		List list = orderService.queryAllOrders(qo, new Pagination());
 		request.setAttribute("list", list);
 		return "forward:/new/work_order_list.jsp";

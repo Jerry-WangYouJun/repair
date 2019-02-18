@@ -35,6 +35,9 @@
 				<div class="taocan  col-xs-5" onclick=" doWeixinPay(500)">
 					<h3>500元</h3>
 				</div>
+				<div class="taocan  col-xs-2" onclick="window.history.back()">
+					<h3>返回</h3>
+				</div>
 			</div>
 
 		</div>

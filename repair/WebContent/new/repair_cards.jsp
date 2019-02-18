@@ -46,13 +46,11 @@
 				<div class="row container">
 					<section class="panel">
 						<div class="twt-feed blue-bg" >
-							<h1 onclick="queryCardRecord('${card.cardNumber}')"> 卡号： 
-								<c:if test="${empty card.cardName }">
-									${card.cardNumber }
-								</c:if>
-								<c:if test="${not empty card.cardName }">
+							 <h1 onclick="queryCardRecord('${card.cardName}')">  
 									${card.cardName }
-								</c:if>
+							 </h1>
+							<h1 onclick="queryCardRecord('${card.cardNumber}')"> 卡号： 
+									${card.cardNumber }
 							 </h1>
 							<div class="weather-category twt-category">
 								<ul>

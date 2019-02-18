@@ -34,7 +34,7 @@ public class OrderDao {
                 order.setOrderNumber(rs.getString("order_number"));
                 order.setCardNumber(rs.getString("card_number"));
                 order.setOrderContent(rs.getString("order_content"));
-                order.setOrderDate(rs.getDate("order_date"));
+                order.setOrderDate(rs.getString("order_date"));
                 order.setOrderMoney(rs.getDouble("order_money"));
                 order.setDuration(rs.getString("duration"));
                 order.setBrokerage(rs.getString("brokerage"));

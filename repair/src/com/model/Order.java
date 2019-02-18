@@ -11,7 +11,7 @@ public class Order {
 
     private String orderContent;
 
-    private Date orderDate;
+    private String orderDate;
 
     private String duration;
 
@@ -55,11 +55,11 @@ public class Order {
         this.orderContent = orderContent == null ? null : orderContent.trim();
     }
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 
