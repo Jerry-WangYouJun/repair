@@ -57,7 +57,7 @@ System.out.println("in jsapi.jsp");
 			</div>
 			<div role="tabpanel" class="tab-pane active" style="margin-top: 10px;">
 				<div class="container">
-					<h3 style="float: left;">支付金额：￥{fee}</h3>
+					<h3 style="float: left;">支付金额：${fee}</h3>
 				</div>
 			</div>
 
