@@ -13,6 +13,9 @@ System.out.println("in jsapi.jsp");
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="">
 		<link href="${basePath}/css/bootstrap.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="${basePath}/css/style.css" />
 		<script src="${basePath}/js/jquery-3.1.1.min.js"></script>
@@ -45,7 +48,7 @@ System.out.println("in jsapi.jsp");
 			   ); 
 			}
 		</script>	
-	    <title>订单-支付</title>
+	    <title>订单支付</title>
 	</head>
 <body>
 

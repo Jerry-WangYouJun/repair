@@ -352,7 +352,7 @@ public class WeixinPayController {
 			model.addAttribute("payPrice", total_fee);
 			model.addAttribute("cardNumber", orderId.substring(2, orderId.length()- 8));
 			model.addAttribute("fee", totalFee);
-			return "/jsapi";
+			return "forward:/wx/jsapi.jsp";
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
@@ -486,7 +486,7 @@ public class WeixinPayController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String url = "http://www.pay-sf.com/card/querySingle?iccid=" +  iccid ;
+		String url = "http://suxiu110.cn/wx/index"  ;
 		response.sendRedirect(url);
 		return null;
 	}
