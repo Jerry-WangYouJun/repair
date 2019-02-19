@@ -217,7 +217,7 @@ public class WeixinPayController {
 			
 			//授权后要跳转的链接
 			String backUri = baseUrl + "/wx/toPay";
-			backUri = backUri + "?orderId=" + orderId+"&totalFee="+totalFee + "$cardNumber=" + cardNumber;
+			backUri = backUri + "?orderId=" + orderId+"&totalFee="+totalFee + "&cardNumber=" + cardNumber;
 			//URLEncoder.encode 后可以在backUri 的url里面获取传递的所有参数
 			backUri = URLEncoder.encode(backUri);
 			//scope 参数视各自需求而定，这里用scope=snsapi_base 不弹出授权页面直接授权目的只获取统一支付接口的openid
@@ -468,6 +468,11 @@ public class WeixinPayController {
 			HttpServletResponse response, Model model) throws IOException{
 		String id = request.getParameter("orderId");
 		String openId = request.getParameter("openId");
+		String fee = request.getParameter("fee");
+		String cardNumber = request.getParameter("cardNumber");
+		 BigDecimal money = new BigDecimal(fee);
+		cardService.updateCardBalancePlus(cardNumber,money);
+		WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( fee , openId));
 		System.out.println("toWXPaySuccess, orderId: " + id);
 		try {
 			Map resultMap = WeixinPayUtil.checkWxOrderPay(id);
@@ -479,11 +484,6 @@ public class WeixinPayController {
         		if("SUCCESS".equals(result_code)){
             	    model.addAttribute("orderId", id);
         			model.addAttribute("payResult", "1");
-        			String fee = request.getParameter("fee");
-        			String cardNumber = request.getParameter("cardNumber");
-        			 BigDecimal money = new BigDecimal(fee);
-        			cardService.updateCardBalancePlus(cardNumber,money);
-                WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( fee , openId));
         		}else{
         			String err_code = (String)resultMap.get("err_code");
             	    String err_code_des = (String)resultMap.get("err_code_des");
