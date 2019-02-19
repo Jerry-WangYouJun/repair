@@ -112,7 +112,7 @@ public class NoticeUtil {
         List<TemplateParam> paras=new ArrayList<TemplateParam>();  
         paras.add(new TemplateParam("first","您好！您已成功付款。","#333"));  
         paras.add(new TemplateParam("keyword1", fee,"#333"));
-        paras.add(new TemplateParam("keyword2", DateUtils.getFormatDate(DateUtils.getToday()),"#333"));
+        paras.add(new TemplateParam("keyword2", DateUtils.getFormatDate(DateUtils.getDate12()),"#333"));
         paras.add(new TemplateParam("keyword3", "山东速修信息" + "","#333"));
         paras.add(new TemplateParam("remark","感谢你对山东速修信息的支持!!!","#333"));  
         tem.setTemplateParamList(paras);  
