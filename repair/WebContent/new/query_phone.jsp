@@ -38,10 +38,10 @@
 				<form  id="dataForm" action = "${basePath}/card/querySingle" method="post">
 					<div class="col-lg-12">
 						<div class="input-group">
-							<input  name ="cardNumber"  type="text" class="form-control input"   required>
+							<input  name ="phone" id="phone" type="text" class="form-control input"   required>
 							<a class="clear" onclick="cleardiv()"></a>
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" onclick="singleQuery()">查询卡号</button>
+								<button class="btn btn-default" type="button" onclick="phoneQuery()">查询手机号</button>
 							</span>
 						</div>
 						<!-- /input-group -->
@@ -50,23 +50,24 @@
 				<!-- /.col-lg-6 -->
 			</div>
 			<!-- /.row -->
-			<div class="row container" style="display: none;" id="cardInfo">
-				 <input  type="hidden" id="cnumber">
-					<section class="panel">
-						<div class="twt-feed blue-bg">
-							<h1 id="cardNumber"> 卡号：  </h1>
-							<div class="weather-category twt-category">
-								<ul>
-									<li class="active">
-										<h5 id="cardBalance"> 卡内余额： ${card.cardBalance }</h5>
-										 
-									</li>
-								</ul>
-							</div>
+			<c:forEach items="${cardList}" var="card">
+					<div class="row container"  id="cardInfo" onclick="newOrder('${card.cardNumber}')" >
+						 <input  type="hidden" id="cnumber">
+							<section class="panel">
+								<div class="twt-feed blue-bg">
+									<h1 > 卡号：${card.cardNumber}  </h1>
+									<div class="weather-category twt-category">
+										<ul>
+											<li class="active">
+												<h5 id="cardBalance"> 卡内余额： ${card.cardBalance }</h5>
+												 
+											</li>
+										</ul>
+									</div>
+								</div>
+							</section>
 						</div>
-					</section>
-				<button type="submit" class="btn btn-primary btn-lg btn-block" style="border: none;" onclick="newOrder()" > 生成订单</button>
-				</div>
+			</c:forEach>
 				<div style="margin-top: 20px">
 					<button style="border: none;" type="button" class="btn btn-primary col-xs-2" onclick="pay();">返回</button>
 				</div>
@@ -74,40 +75,17 @@
 
 		<script >
 		
-		function  newOrder(){
-			var cardNumber =  $("#cnumber").val();
+		function  newOrder(cardNumber){
 			window.location.href='${basePath}/web/orderInit?cardNumber=' + cardNumber;
 		}
 			function cleardiv(){
 				
-				document.getElementById("password").value="";
+				document.getElementById("phone").value="";
 			}
 			
-			function singleQuery(){
-				var url = "${basePath}/card/querySingle";
-	            $.ajax({
-	                url : url,
-	                type : 'post',
-	                data : $("#dataForm").serialize(),
-	                dataType : 'json',
-	                success : function(data) {
-	                	console.info(data)
-	                    if (data.success) {
-	                         $("#cnumber").val(data.obj.cardNumber)
-	                    		 $("#cardNumber").html("" );
-	                         $("#cardBalance").html( "" );
-	                         $("#cardNumber").append("卡号：" + data.obj.cardNumber);
-	                         $("#cardBalance").append( "卡内余额" + data.obj.cardBalance);
-	                         $("#cardInfo").show();
-	                    } else {
-	                        alert(data.msg);
-	                    		$("#cardInfo").hide();
-	                    }
-	                },
-	                error : function(transport) {
-	                    alert(data.msg);
-	                }
-	            });
+			function phoneQuery(){
+				var phone =  $("#phone").val();
+				window.location.href = "${basePath}/web/phoneQuery?phone=" + phone;
 			}
 		</script>
 	</body>

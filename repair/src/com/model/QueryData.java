@@ -9,6 +9,7 @@ public class QueryData {
 	private String cardTypes;
 	private String cardStatuss;
 	private String memberRole;
+	private String memberPhone;
 	private String searchPhone;
 	private String searchOrderNumber;
 	private String searchOrderDate;
@@ -121,6 +122,14 @@ public class QueryData {
 
 	public void setOrderState(String orderState) {
 		this.orderState = orderState;
+	}
+
+	public String getMemberPhone() {
+		return memberPhone;
+	}
+
+	public void setMemberPhone(String memberPhone) {
+		this.memberPhone = memberPhone;
 	}
 	
 }

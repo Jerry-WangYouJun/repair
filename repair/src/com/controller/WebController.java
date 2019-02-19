@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -163,7 +164,6 @@ public class WebController {
 		Member m = (Member)session.getAttribute("loginMember");
 		QueryData qo = new QueryData();
 		qo.setMbmberId(m.getMemberId());
-		qo.setSearchName(m.getName());
 		qo.setOrderState("待付款");
 		List list = orderService.queryAllOrders(qo, new Pagination());
 		request.setAttribute("list", list);
@@ -175,7 +175,7 @@ public class WebController {
 		Member m = (Member)session.getAttribute("loginMember");
 		QueryData qo = new QueryData();
 		qo.setOrderState("待付款");
-		qo.setMbmberId(m.getMemberId());
+		qo.setSearchName(m.getName());
 		List list = orderService.queryAllOrders(qo, new Pagination());
 		request.setAttribute("list", list);
 		return "forward:/new/work_order_list.jsp";
@@ -290,4 +290,25 @@ public class WebController {
 	            
 	        }
 	}
+	
+	 @RequestMapping("/phoneQuery")
+	    public  String phoneQuery(String phone,HttpServletResponse response,HttpSession session , HttpServletRequest request) {
+	    		QueryData qo = new QueryData();
+	    		qo.setMemberPhone(phone);
+	    		List<CardAttribute>  list=service.queryAllCards(qo, new Pagination());
+	    		request.setAttribute("cardList", list);
+	    		return "forward:/new/query_phone.jsp";
+	    }
+	 
+	 @RequestMapping("/deleteCard")
+	    public String deleteCard(String ids,HttpServletResponse response) {
+	        response.setContentType("text/text;charset=UTF-8");
+	            String[] strs = ids.split(",");
+	            List<String> delList = new ArrayList<String>();
+	            for (String str : strs) {
+	                delList.add(str);
+	            }
+	            service.delCardWithIds(delList);
+	            return "forward:/web/repairCards";
+	    }
 }

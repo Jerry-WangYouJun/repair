@@ -44,7 +44,7 @@ public class UserDao {
 
 	public List<User> queryAllUsers() {
 		String sql = "select u.*,r.role_code,r.role_name  , b.name mamberName , b.phone from user u left join role r on u.role_id=r.role_id  "
-				+ "  left join member b on u.openid = b.open_id " ;
+				+ "  left join member b on u.username = b.phone " ;
 		final  List<User> list =   new ArrayList<>();
 		jdbcTemplate.query(sql, new RowMapper() {
 			public Object mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -103,5 +103,15 @@ public class UserDao {
 			 updatesqlTemp = "update user set role_id = " + role  + " where openid = '" + openid  + "'"; 
 		 }
 	        jdbcTemplate.update(updatesqlTemp);
+	}
+
+	public void deleteMember(String ids , String table ) {
+		String updatesqlTemp = "";
+		 if("member".equals(table)) {
+			 updatesqlTemp = "delete from  member where phone in (select username from user where user_id in (" + ids  + "))"; 
+		 }else {
+			 updatesqlTemp = "delete from  user where username  in ( select phone from member where member_id in (" + ids + "))"; 
+		 }
+		 jdbcTemplate.update(updatesqlTemp);
 	}
 }

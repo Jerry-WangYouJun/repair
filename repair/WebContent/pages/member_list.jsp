@@ -71,11 +71,11 @@
 						</div>
 						<div class="form-group">
 							<label for="recipient-name" class="control-label">手机号:</label> <input
-								type="text" class="form-control" name="phone" id="phone">
+								type="text" class="form-control" name="phone" id="phone" onchange="checkTelephone()">
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="control-label">身份证:</label>
-							<input type="text" class="form-control" name="idCard" id="idCard">
+							<input type="text" class="form-control" name="idCard" id="idCard" onchange="isCardNo()">
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="control-label">备注:</label>
@@ -248,7 +248,48 @@
             $("#infoTable").bootstrapTable("refresh");
         }
 		
+
+		// 验证身份证
+		function isCardNo() {
+			var card = $("#idCard").val();
+		    var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+		    if (! pattern.test(card)) {
+         		alert("身份证不合法,请重填");
+         		$("#idCard").val("")
+             return false;
+        		 } 
+		    check_unique('idCard');
+		}
 		
+		function checkTelephone(){
+			 var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+	         if (!myreg.test($("#phone").val())) {
+	         		alert("手机号不合法,请重填");
+	         		$("#phone").val("")
+	             return false;
+	         } 
+	         check_unique('phone');
+		}
+		
+		function check_unique(filed){
+			var  value = $("#"+filed).val();
+			var path="${basePath}/web/check_unique"
+			 $.ajax({
+				 url : path,
+					type : 'post',
+					data : { value:value  , colName :filed},
+					dataType : 'json',
+					success : function(data) {
+						if (!data.success)  {
+							alert(data.msg);
+							$("#"+filed).val("");
+						}
+					},
+					error : function(transport) {
+						alert("系统产生错误,请联系管理员!");
+					}
+			 })
+		}
 	</script>
 	
 		

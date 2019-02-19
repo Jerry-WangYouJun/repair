@@ -80,6 +80,10 @@
 		            <span class="review1-bg bg"></span>
 		            <span class="art_rev_tit" >卡号查询</span>
 		        </a>
+		        <a class="template1" href="${pageContext.request.contextPath}/new/query_phone.jsp">
+		            <span class="article1-bg bg"></span>
+		            <span class="art_rev_tit" >手机号查询</span>
+		        </a>
 		    </div>
 			<div class="old_my_center my_message">
 				<a href="${pageContext.request.contextPath}/web/workList">

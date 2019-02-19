@@ -126,6 +126,7 @@ public class UserController {
 			for (String str : strs) {
 				delList.add(str);
 			}
+			service.deleteMember(ids , "member");
 			service.delUserWithIds(delList);
 			out = response.getWriter();
 			JSONObject json = new JSONObject();

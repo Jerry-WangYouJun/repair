@@ -48,7 +48,7 @@
 					 <input  class="form-control" name="openid" id="openid" type="hidden"></input>
 						<div class="form-group">
 							<label for="recipient-name" class="control-label">登录账号:</label> <input
-								type="text" class="form-control" name="username" id="username" readonly="readonly">
+								type="text" class="form-control" name="username" id="username" >
 						</div>
 						<div class="form-group">
 							<label for="recipient-name" class="control-label">密码:</label> <input
@@ -56,7 +56,7 @@
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="control-label">手机号:</label>
-								<input type="text" class="form-control" name="name" id="name" readonly="readonly">
+								<input type="text" class="form-control" name="name" id="name" >
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="control-label">用户角色:</label>

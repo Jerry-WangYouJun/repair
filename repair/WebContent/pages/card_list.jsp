@@ -264,8 +264,7 @@
                 alert("余额不足，请充值");
                 return false;
 			}
-			alert( $("#dataConsumeForm").serialize());
-            var url = "${basePath}/card/card_consume";
+            var url = "${basePath}/card/card_consume_admin";
             $.ajax({
                 url : url,
                 type : 'post',

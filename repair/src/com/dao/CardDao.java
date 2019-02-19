@@ -94,9 +94,13 @@ public class CardDao {
         if(StringUtils.isNotEmpty(qo.getSearchName())){
             whereSql += " and   m.name like  '%" + qo.getSearchName().trim() + "%' ";
         }
+        if(StringUtils.isNotEmpty(qo.getMemberPhone())){
+            whereSql += " and   m.member_id  in ( select member_id from member where phone like   '%" + qo.getMemberPhone().trim() + "%' )";
+        }
         if( qo.getMbmberId() != null && qo.getMbmberId() > 0 ){
             whereSql += " and   m.member_id  =   '" + qo.getMbmberId() + "' ";
         }
+        
         if(StringUtils.isNotEmpty(qo.getCardStatuss()) ) {
             whereSql += " and   c.card_status  =   '" + qo.getCardStatuss().trim() + "' ";
         }

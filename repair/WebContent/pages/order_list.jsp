@@ -21,7 +21,7 @@
 					<div id="toolbar" class="btn-group">
 						<form class="form-inline" role="form">
 							<div style="margin-bottom: 1px;">
-								<input type='text' class="form-control" id='searchOrderDate' placeholder="请选择日期" />
+								<input type='text' class="form-control" id='searchOrderDate' placeholder="请选择日期" readonly="readonly" />
 								<input type="text" class="form-control" id="searchOrderNumber"
 									   placeholder="请输入工单号">
 								<input type="text" class="form-control" id="searchCardNumber"
@@ -200,6 +200,7 @@
             autoclose :true ,
             todayHighlight : true,
             todayBtn : true,
+            clearBtn:true,
             minuteStep: 0,
             minView : 2,
             initialDate:new Date()

@@ -148,6 +148,36 @@ public class CardController {
             System.out.println("出现异常" + e.getMessage());
         }
     }
+    
+    @RequestMapping("/card_consume_admin")
+    public void cardPayAdmin(OrderAttribute order,HttpServletResponse response,HttpSession session) {
+        response.setContentType("text/text;charset=UTF-8");
+        PrintWriter out;
+        JSONObject json = new JSONObject();
+        try {
+            order.setBrokerage("管理员");
+            order.setOrderNumber(getNewOrderNumber(session));
+            Card card = service.querySingleCard(order.getCardNumber());
+            BigDecimal money = new BigDecimal(card.getCardBalance());
+            money = money.subtract(new BigDecimal(order.getOrderMoney()));
+            order.setState("已付款");
+            orderService.insertConsumeOrder(order);
+            recordService.insertConsumeRecord(order,"consume");
+            QueryData qo = new QueryData();
+            qo.setSearchCardNumber(order.getCardNumber());
+            Member custMaster = memberService.queryAllMembers(qo, new Pagination()).get(0);
+            service.updateCardBalance(order.getCardNumber(),money);
+            WXAuthUtil.sendTemplateMsg(NoticeUtil.confirmPay(order , custMaster.getOpenId()));
+            out = response.getWriter();
+            json.put("msg", "操作成功");
+            json.put("success", true);
+            out.println(json);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            System.out.println("出现异常" + e.getMessage());
+        }
+    }
 
     @RequestMapping("/card_recharge")
     public void cardRecharge(OrderAttribute order,HttpServletResponse response,HttpSession session) {
@@ -172,6 +202,7 @@ public class CardController {
             e.printStackTrace();
         }
     }
+    
     
     @RequestMapping("/querySingle")
     public void querySingle(String cardNumber,HttpServletResponse response,HttpSession session) {
@@ -199,7 +230,7 @@ public class CardController {
         }
     }
 
-
+    
     @RequestMapping("/card_delete")
     public void deletetUser(String ids,HttpServletResponse response) {
         response.setContentType("text/text;charset=UTF-8");
@@ -223,26 +254,33 @@ public class CardController {
         }
     }
 
-    
+    @ResponseBody
     @RequestMapping("/checkCard")
-	public void checkCard(String cardno , String pwd  ,HttpServletResponse response){
+	public JSONObject checkCard(String cardno , String pwd  ,HttpServletResponse response){
 		boolean flag  = service.checkCard(cardno , pwd );
-		 PrintWriter out;
+		QueryData qo = new QueryData();
+		qo.setSearchCardNumber(cardno);
+		int num = service.queryAllCardsTotal(qo, new Pagination());
+		 JSONObject json = new JSONObject();
 			try {
-				JSONObject json = new JSONObject();
-				out = response.getWriter();
-				if(!flag ){
+				if(flag && num <= 0 ){
 					json.put("msg", "操作成功");
 					json.put("success", false);
 				}else{
 					json.put("success", true);
+					if(!flag) {
+						json.put("msg", "输入的卡号或者密码错误，请重新输入");
+					}else {
+						if(num > 0) {
+							json.put("msg", "您输入的卡已经被使用，请核对");
+						}
+					}
+					
 				}
-				out.println(json);
-				out.flush();
-				out.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			return json;
 	}
 
     public String getNewCardNumber(){

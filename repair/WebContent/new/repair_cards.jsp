@@ -12,17 +12,6 @@
 <script src="${basePath}/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 
-	    function getPrepay(){
-	    	 if('${info.flag}' == '1'){
-	    	  	  alert("此号码不支持充值，请换卡或联系管理员！");
-	    	  	  return false;
-	   		  }
-		    	if('${info.ICCID }' == ''){
-		    		  alert('无效的iccid，请点击【切换】按钮获得iccid');
-		    		  return false ;
-		    	}
-		    	window.location.href='${basePath}/card/xinfu_wechat_pay?iccid=${info.ICCID}';
-	    }
 	    
 	    function queryCardRecord(cardNumber){
 	   	 	window.location.href='${basePath}/web/carRecords?cardNumber=' + cardNumber;
@@ -31,6 +20,10 @@
 	    function payCard(cardNumber){
 	    	event.stopPropagation();
 	    		window.location.href='${basePath}/web/pay?cardNumber=' + cardNumber;
+	    }
+	    
+	    function deleteCard(id){
+	   	 	window.location.href='${basePath}/web/deleteCard?ids=' + id;
 	    }
 </script>
 </head>
@@ -46,7 +39,7 @@
 				<div class="row container">
 					<section class="panel">
 						<div class="twt-feed blue-bg" >
-							 <h1 onclick="queryCardRecord('${card.cardName}')">  
+							 <h1 onclick="queryCardRecord('${card.cardNumber}')">  
 									${card.cardName }
 							 </h1>
 							<h1 onclick="queryCardRecord('${card.cardNumber}')"> 卡号： 
@@ -54,12 +47,16 @@
 							 </h1>
 							<div class="weather-category twt-category">
 								<ul>
-									<li class="active">
+									<li class="active" onclick="queryCardRecord('${card.cardNumber}')">
 										<h5> 卡内余额： ${card.cardBalance } 
 										</h5>
 									</li>
 									<li class="active">
 										<h1>  <button style="background-color: #6a74ec" type="button" onclick="payCard('${card.cardNumber}')">充值</button>
+										</h1>
+									</li>
+									<li class="active">
+										<h1>  <button style="background-color: #6a74ec" type="button" onclick="deleteCard('${card.cardId}')">删除卡</button>
 										</h1>
 									</li>
 								</ul>

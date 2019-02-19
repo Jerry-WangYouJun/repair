@@ -64,4 +64,8 @@ public class UserService {
 		
 		dao.updateRole(openid , table , role);
 	}
+
+	public void deleteMember(String ids ,String table ) {
+		dao.deleteMember(ids , table);
+	}
 }

@@ -108,10 +108,11 @@
 	                data : {cardno:cardno , pwd:pwd},
 	                dataType : 'json',
 	                success : function(data) {
-	                    if (!data.success) {
-	                    	alert("输入的卡号或者密码错误，请重新输入");
-	                    	$("#cardNumber").val("") ;
-	                    	$("#pwd").val("");
+	                    if (data.success) {
+		                    	alert(data.msg);
+		                    	$("#cardNumber").val("") ;
+		                    	$("#pwd").val("");
+		                    	return false;
 	                    } 
 	                },
 	                error : function(transport) {

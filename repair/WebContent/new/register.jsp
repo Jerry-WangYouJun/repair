@@ -63,6 +63,18 @@
 </body>
 <script type="text/javascript">
 		function subInfo(){
+			if($("name").val() == ''){
+				 alert("请填写会员名称");
+				 return false;
+			}
+			if($("phone").val() == ''){
+				 alert("请填写有效的电话号码");
+				 return false;
+			}
+			if($("idCard").val() == ''){
+				 alert("请填写有效的身份证");
+				 return false;
+			}
 			subInfoAll("member");
 		}
 		

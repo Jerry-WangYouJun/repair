@@ -99,6 +99,7 @@ public class MemberController {
             for (String str : strs) {
                 delList.add(str);
             }
+            userService.deleteMember(ids , "user");
             service.delMemberWithIds(delList);
             out = response.getWriter();
             JSONObject json = new JSONObject();
