@@ -216,13 +216,13 @@ public class WebController {
          qo.setSearchCardNumber(order.getCardNumber());
          Member custMaster = memberService.queryAllMembers(qo, new Pagination()).get(0);
          if(flag == 1){
-        	 orderService.updateOrderState(orderNumber ,  new String(state.getBytes("ISO-8859-1"),"UTF-8"));
-        	 service.updateCardBalance(order.getCardNumber(),money);
-        	 WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
+	        	 orderService.updateOrderState(orderNumber ,  new String(state.getBytes("ISO-8859-1"),"UTF-8"));
+	        	 service.updateCardBalance(order.getCardNumber(),money);
+	        	 WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
          }else{
-        	 request.setAttribute("msg", "付款失败，余额不足");
-        	 request.setAttribute("orderNow", order.getOrderNumber());
-        	 WXAuthUtil.sendTemplateMsg(NoticeUtil.failPay(order , custMaster));
+	        	 request.setAttribute("msg", "付款失败，余额不足");
+	        	 request.setAttribute("orderNow", order.getOrderNumber());
+	        	 WXAuthUtil.sendTemplateMsg(NoticeUtil.failPay(order , custMaster));
          }
 		} catch (Exception e) {
 			 System.out.println("出现异常" + e.getMessage());

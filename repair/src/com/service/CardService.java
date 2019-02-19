@@ -66,6 +66,10 @@ public class CardService {
         return dao.updateCardBalance(cardNumber,balanceMoney);
     }
 
+    public int updateCardBalancePlus(String cardNumber, BigDecimal balanceMoney) {
+        return dao.updateCardBalancePlus(cardNumber,balanceMoney);
+    }
+    
 	public boolean checkCard(String cardno, String pwd) {
 		return dao.checkCard(cardno,pwd);
 	}

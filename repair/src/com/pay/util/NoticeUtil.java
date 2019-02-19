@@ -18,6 +18,8 @@ public class NoticeUtil {
 	static String confirmPay = "CZIkJgbuP2S53tV5SiacIgB6S2CyjzGvhBG9Z5x9hvE";
 	
 	static String paySuccess="esM36cKV45_69lZ25TDHdsonBz9JOI52gDtfObW_qQs";
+	
+	static String wxPay = "qX095qLB2lVlxqVQ9_LibLh5IaA3ymP4jjEXlGZ4pt4";
 //	
 //	/**
 //	 * 注册成功
@@ -97,6 +99,24 @@ public class NoticeUtil {
         paras.add(new TemplateParam("remark","感谢你对山东速修信息的支持!!!","#333"));  
         tem.setTemplateParamList(paras);  
         tem.setToUser(custMaster.getOpenId());
+        //设置超链接
+        tem.setUrl("http://suxiu110.cn/wx/index" );  
+        return tem;
+	}
+	
+	public static Template wxPay(String fee , String openId) {
+		Template tem=new Template();  
+        tem.setTemplateId(wxPay);  
+        tem.setTopColor("#000000");  
+                  
+        List<TemplateParam> paras=new ArrayList<TemplateParam>();  
+        paras.add(new TemplateParam("first","您好！您已成功付款。","#333"));  
+        paras.add(new TemplateParam("keyword1", fee,"#333"));
+        paras.add(new TemplateParam("keyword2", DateUtils.getFormatDate(DateUtils.getToday()),"#333"));
+        paras.add(new TemplateParam("keyword3", "山东速修信息" + "","#333"));
+        paras.add(new TemplateParam("remark","感谢你对山东速修信息的支持!!!","#333"));  
+        tem.setTemplateParamList(paras);  
+        tem.setToUser(openId);
         //设置超链接
         tem.setUrl("http://suxiu110.cn/wx/index" );  
         return tem;

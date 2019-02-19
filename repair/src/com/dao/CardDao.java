@@ -75,6 +75,11 @@ public class CardDao {
         String updatesqlTemp = " UPDATE CARD SET card_balance=+'"+balanceMoney+"' WHERE CARD_Number = '"+cardNumber+"'";
         return jdbcTemplate.update(updatesqlTemp);
     }
+    
+    public int updateCardBalancePlus(String cardNumber, BigDecimal balanceMoney) {
+        String updatesqlTemp = " UPDATE CARD SET card_balance = card_balance + '"+balanceMoney+"' WHERE CARD_Number = '"+cardNumber+"'";
+        return jdbcTemplate.update(updatesqlTemp);
+    }
 
     //select c.*,m.name,t.type_name from card c left join member m on c.member_id=m.member_id left join card_type t on c.card_type=t.type_id
     public String whereSQL(QueryData qo){

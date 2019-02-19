@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,15 +30,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.common.StringUtils;
+import com.model.Member;
+import com.model.Pagination;
 import com.model.User;
 import com.pay.config.WxPayConfig;
 import com.pay.msgreply.XMLUtil;
 import com.pay.util.CommonUtil;
+import com.pay.util.NoticeUtil;
 import com.pay.util.OrderUtils;
 import com.pay.util.RequestHandler;
 import com.pay.util.Sha1Util;
 import com.pay.util.WXAuthUtil;
 import com.pay.util.WeixinPayUtil;
+import com.service.CardService;
 import com.service.UserService;
 
 import net.sf.json.JSONObject;
@@ -53,6 +59,9 @@ import net.sf.json.JSONObject;
 public class WeixinPayController {
 	@Autowired
 	UserService userService ;
+	
+	@Autowired
+	CardService cardService ;
 	
 	
 	private static String baseUrl = "http://suxiu110.cn";
@@ -208,7 +217,7 @@ public class WeixinPayController {
 			
 			//授权后要跳转的链接
 			String backUri = baseUrl + "/wx/toPay";
-			backUri = backUri + "?orderId=" + orderId+"&totalFee="+totalFee;
+			backUri = backUri + "?orderId=" + orderId+"&totalFee="+totalFee + "$cardNumber=" + cardNumber;
 			//URLEncoder.encode 后可以在backUri 的url里面获取传递的所有参数
 			backUri = URLEncoder.encode(backUri);
 			//scope 参数视各自需求而定，这里用scope=snsapi_base 不弹出授权页面直接授权目的只获取统一支付接口的openid
@@ -352,6 +361,8 @@ public class WeixinPayController {
 			model.addAttribute("payPrice", total_fee);
 			model.addAttribute("cardNumber", orderId.substring(2, orderId.length()- 8));
 			model.addAttribute("fee", totalFee);
+			
+			model.addAttribute("openId", openId);  
 			return "forward:/wx/jsapi.jsp";
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -456,10 +467,7 @@ public class WeixinPayController {
 	public String toWXPaySuccess(HttpServletRequest request,
 			HttpServletResponse response, Model model) throws IOException{
 		String id = request.getParameter("orderId");
-		String iccid = "";
-		if(StringUtils.isNotEmpty(id)){
-			iccid =  id.substring(2, id.length()- 8) ;
-		}
+		String openId = request.getParameter("openId");
 		System.out.println("toWXPaySuccess, orderId: " + id);
 		try {
 			Map resultMap = WeixinPayUtil.checkWxOrderPay(id);
@@ -471,6 +479,11 @@ public class WeixinPayController {
         		if("SUCCESS".equals(result_code)){
             	    model.addAttribute("orderId", id);
         			model.addAttribute("payResult", "1");
+        			String fee = request.getParameter("fee");
+        			String cardNumber = request.getParameter("cardNumber");
+        			 BigDecimal money = new BigDecimal(fee);
+        			cardService.updateCardBalancePlus(cardNumber,money);
+                WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( fee , openId));
         		}else{
         			String err_code = (String)resultMap.get("err_code");
             	    String err_code_des = (String)resultMap.get("err_code_des");
