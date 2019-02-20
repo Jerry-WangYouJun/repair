@@ -84,6 +84,26 @@ public class NoticeUtil {
         tem.setUrl("http://suxiu110.cn/wx/index" );  
         return tem;
 	}
+	
+	
+	public static Template successPayWorker(Order order, Member custWork , String name ) {
+		Template tem=new Template();  
+        tem.setTemplateId(paySuccess);  
+        tem.setTopColor("#000000");  
+                  
+        List<TemplateParam> paras=new ArrayList<TemplateParam>();  
+        paras.add(new TemplateParam("first","您好！您的工单："+ order.getOrderNumber() + "已经付款成功","#333"));  
+        paras.add(new TemplateParam("keyword1", name ,"#333"));
+        paras.add(new TemplateParam("keyword2", order.getOrderContent(),"#333"));
+        paras.add(new TemplateParam("keyword3", order.getOrderMoney() + "","#333"));
+        paras.add(new TemplateParam("keyword4", DateUtils.getToday(),"#333"));
+        paras.add(new TemplateParam("remark","感谢你对客户付出的辛苦劳动!!!","#333"));  
+        tem.setTemplateParamList(paras);  
+        tem.setToUser(custWork.getOpenId());
+        //设置超链接
+        tem.setUrl("http://suxiu110.cn/wx/index" );  
+        return tem;
+	}
 
 	public static Template failPay(Order order, Member custMaster) {
 		Template tem=new Template();  
@@ -104,13 +124,13 @@ public class NoticeUtil {
         return tem;
 	}
 	
-	public static Template wxPay(String fee , String openId) {
+	public static Template wxPay(String fee , String openId , String cardNumber) {
 		Template tem=new Template();  
         tem.setTemplateId(wxPay);  
         tem.setTopColor("#000000");  
                   
         List<TemplateParam> paras=new ArrayList<TemplateParam>();  
-        paras.add(new TemplateParam("first","您好！您已成功付款。","#333"));  
+        paras.add(new TemplateParam("first","您好！您的维修卡：" + cardNumber + "已经充值成功" ,"#333"));  
         paras.add(new TemplateParam("keyword1", fee,"#333"));
         paras.add(new TemplateParam("keyword2", DateUtils.getFormatDate(DateUtils.getDate12()),"#333"));
         paras.add(new TemplateParam("keyword3", "山东速修信息" + "","#333"));

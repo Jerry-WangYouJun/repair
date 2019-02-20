@@ -212,7 +212,7 @@ public class WeixinPayController {
 			String cardNumber = request.getParameter("cardNumber");
 			String orderId = OrderUtils.genOrderNo(cardNumber);
 			String totalFee = request.getParameter("totalFee");
-			 totalFee = "0.01";
+			// totalFee = "0.01";
 			System.out.println("in userAuth,orderId:" + orderId);
 			
 			//授权后要跳转的链接
@@ -472,7 +472,7 @@ public class WeixinPayController {
 		String cardNumber = request.getParameter("cardNumber");
 		 BigDecimal money = new BigDecimal(fee);
 		cardService.updateCardBalancePlus(cardNumber,money);
-		WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( fee , openId));
+		WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( fee , openId , cardNumber));
 		System.out.println("toWXPaySuccess, orderId: " + id);
 		try {
 			Map resultMap = WeixinPayUtil.checkWxOrderPay(id);

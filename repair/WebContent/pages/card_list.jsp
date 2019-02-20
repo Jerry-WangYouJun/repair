@@ -194,7 +194,7 @@
 						<input type="hidden" class="form-control" name="moneyBalance" id="moneyBalanceRecharge">
 						<div class="form-group">
 							<label for="recipient-name" class="control-label">卡号:</label> <input
-								type="text" class="form-control" name="cardNumber" id="cardNumberRecharge">
+								type="text" class="form-control" name="cardNumber" id="cardNumberRecharge" readonly="readonly">
 						</div>
 
 						<div class="form-group">

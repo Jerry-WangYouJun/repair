@@ -2,6 +2,7 @@ package com.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -26,6 +27,8 @@ import com.model.CardAttribute;
 import com.model.CardType;
 import com.model.Grid;
 import com.model.Member;
+import com.model.MemberAttribute;
+import com.model.Order;
 import com.model.OrderAttribute;
 import com.model.Pagination;
 import com.model.QueryData;
@@ -149,6 +152,65 @@ public class CardController {
         }
     }
     
+    @RequestMapping("/updateOrderState")
+	public JSONObject updateOrderState(HttpServletRequest request ,HttpSession session  , String orderNumber ,
+			HttpServletResponse response) throws UnsupportedEncodingException{
+    	 	response.setContentType("text/text;charset=UTF-8");
+         JSONObject json = new JSONObject();
+	    	try {
+			 QueryData qo = new QueryData();
+			 qo.setSearchOrderNumber(orderNumber);
+			 Order order = orderService.queryAllOrders(qo, new Pagination()).get(0) ;
+			 Card card = service.querySingleCard(order.getCardNumber());
+			 if(card ==null ) {
+				 json.put("msg", "付款失败，卡信息不存在");
+   	  		     json.put("success", false);
+   	  		     return json;
+			 }
+	         BigDecimal money = new BigDecimal(card.getCardBalance());
+	         money = money.subtract(new BigDecimal(order.getOrderMoney()));
+	         int flag = money.compareTo(BigDecimal.ZERO); 
+	         qo = new QueryData();
+	         qo.setSearchCardNumber(order.getCardNumber());
+	         List<MemberAttribute> custList = memberService.queryAllMembers(qo, new Pagination());
+	     	 Member custMaster =  new Member();
+	         if(custList != null  && custList.size() >0) {
+	        	  	  custMaster =  custList.get(0);
+	        	  	  if(flag == 1){
+	        	  		  qo = new QueryData(); 
+	        	  		  qo.setSearchCardNumber(order.getBrokerage());
+	        	  		  List<MemberAttribute> custWorkList = memberService.queryAllMembers(qo, new Pagination());
+	        	  		  if(custWorkList != null  && custWorkList.size() >0) {
+	        	  			  Member custWork = custWorkList.get(0);
+	        	  			  orderService.updateOrderState(orderNumber ,  "已付款");
+	        	  			  service.updateCardBalance(order.getCardNumber(),money);
+	        	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
+	        	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPayWorker(order , custWork , custMaster.getName()));
+	        	  			  json.put("msg", "操作成功");
+	        	  			  json.put("success", true);
+	        	  		  }else {
+	        	  			  orderService.updateOrderState(orderNumber ,  "已付款");
+	        	  			  service.updateCardBalance(order.getCardNumber(),money);
+	        	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
+	        	  			  json.put("msg", "扣款成功，工人姓名有误，请核对");
+	        	  			  json.put("success", true);
+	        	  		  }
+	        	  	  }else{
+	        	  		  WXAuthUtil.sendTemplateMsg(NoticeUtil.failPay(order , custMaster));
+	        	  		  json.put("msg", "付款失败，余额不足");
+	        	  		  json.put("success", false);
+	        	  	  }
+	         }else {
+	        	 	json.put("msg", "付款失败，未找到关联持卡人，请核对卡信息");
+		  		  json.put("success", false);
+	         }
+		} catch (Exception e) {
+			 json.put("msg", "出现异常" + e.getMessage());
+	         json.put("success", false);
+		}
+    		return json;
+	}
+    
     @RequestMapping("/card_consume_admin")
     public void cardPayAdmin(OrderAttribute order,HttpServletResponse response,HttpSession session) {
         response.setContentType("text/text;charset=UTF-8");
@@ -191,6 +253,10 @@ public class CardController {
             orderService.insertConsumeOrder(order);
             recordService.insertRechargeRecord(order,"recharge");
             service.updateCardBalance(order.getCardNumber(),money);
+            QueryData qo = new QueryData() ;
+            qo.setSearchCardNumber(order.getCardNumber());
+            Member member  = memberService.queryAllMembers(qo, new Pagination()).get(0);
+            WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( order.getOrderMoney() + "" , member.getOpenId() , order.getCardNumber()));
             out = response.getWriter();
             JSONObject json = new JSONObject();
             json.put("msg", "操作成功");

@@ -224,8 +224,8 @@
                             <li><a href="#" class="st-bag" onclick='addTab("record","${pageContext.request.contextPath}/pages/record_list.jsp","消费记录")'>
                                 消费记录</a>
                             </li>
-                            <li><a href="#" class="st-bag" onclick='addTab("order","${pageContext.request.contextPath}/pages/order_list.jsp","消费清单")'>
-                                消费清单</a>
+                            <li><a href="#" class="st-bag" onclick='addTab("order","${pageContext.request.contextPath}/pages/order_list.jsp","服务清单")'>
+                                服务清单</a>
                             </li>
                         </ul>
                     </li>

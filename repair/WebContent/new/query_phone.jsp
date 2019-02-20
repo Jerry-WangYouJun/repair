@@ -69,7 +69,7 @@
 						</div>
 			</c:forEach>
 				<div style="margin-top: 20px">
-					<button style="border: none;" type="button" class="btn btn-primary col-xs-2" onclick="pay();">返回</button>
+					<button style="border: none;" type="button" class="btn btn-primary col-xs-2" onclick="window.history.back()">返回</button>
 				</div>
 		</div>
 

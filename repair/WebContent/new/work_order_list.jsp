@@ -24,8 +24,14 @@
 		    	}
 		    	window.location.href='${basePath}/card/xinfu_wechat_pay?iccid=${info.ICCID}';
 	    }
+	    
 	    function updateState(orderNumber , state){
-	    	window.location.href='${basePath}/web/updateOrderState?orderNumber='+ orderNumber+"&state=" +state ;
+	   	 	window.location.href='${basePath}/web/updateOrderState?orderNumber='+ orderNumber+"&state=" +state ;
+	    }
+	    
+	    function payCard(cardNumber){
+	    	event.stopPropagation();
+	    		window.location.href='${basePath}/web/pay?cardNumber=' + cardNumber;
 	    }
 </script>
 </head>
@@ -50,7 +56,7 @@
 								<c:if test="${order.state eq '待付款' }">
 									<button style="color:black;" onclick="updateState('${order.orderNumber }','已付款')">确认付款</button>
 									 <c:if test="${order.orderNumber eq orderNow }">
-										  ${msg}<button style="color:black;" onclick="updateState('${order.orderNumber }','已付款')">去充值</button>
+										  ${msg}<button style="color:black;" onclick="payCard('${order.cardNumber}')">去充值</button>
 									 </c:if>
 								</c:if>
 							</c:if>

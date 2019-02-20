@@ -5,7 +5,7 @@
 <html id="a1">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>清单管理</title>
+<title>服务清单</title>
 <style type="text/css">
   .panel-body {
     padding: 0px !important; 
@@ -37,6 +37,9 @@
 								<%--</select>--%>
 								<button id="btn_edit" type="button" class="btn btn-default" onclick="queryData()">
 									查询
+								</button>
+								<button id="btn_delete" type="button" class="btn btn-default" onclick="payOrder()">
+									<span class="glyphicon glyphicon-forward" aria-hidden="true" ></span>结账
 								</button>
 							</div>
 
@@ -147,13 +150,51 @@
                 },{
                     field : 'orderMoney',   title : '工单金额',   align: 'center', valign: 'middle'
                 },{
+                    field : 'state',   title : '工单状态',   align: 'center', valign: 'middle'
+                },{
                     field : 'brokerage',   title : '经手人',   align: 'center', valign: 'middle'
 				},{
-					field : 'remark',   title : '备注',  align: 'center',   valign: 'middle'}
+					field : 'remark',   title : '备注',  align: 'center',   valign: 'middle'
+				},{
+	                field : 'operate',   title : '操作',   align: 'center', valign: 'middle',formatter:AddFunctionAlty
+				}
 					],
 				silent : true, // 刷新事件必须设置
 			});
 		});
+		
+		function AddFunctionAlty(value,row,index) {
+			return [
+				'<button   type="button"  class="consume  btn btn-default  btn-sm" onclick="payOrder('+ "'" + row.orderNumber + "','"+ row.state+"'"+')" >扣费</button>'
+			];
+		}
+		
+		function  payOrder(orderNumber , state){
+			if(state != '待付款'){
+				 alert('该工单不是待付款状态,不能进行该操作');
+				 return false ;
+			}
+			var path = "${basePath}/card/updateOrderState";
+            $.ajax({
+                url : path,
+                type : 'post',
+                data:{'orderNumber':orderNumber },
+                dataType : 'json',
+                success : function(data) {
+                    if (data.success) {
+                        alert( data.msg);
+                        $("#infoTable").bootstrapTable("refresh");
+                    } else {
+                        alert( data.msg);
+                    }
+
+                },
+                error : function(transport) {
+                    alert( "系统产生错误,请联系管理员!");
+                }
+            });
+            
+		}
 
         function deleteDataById(name) {
             var ids = "";
