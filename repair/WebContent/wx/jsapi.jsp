@@ -47,6 +47,10 @@ System.out.println("in jsapi.jsp");
 			       }
 			   ); 
 			}
+			
+			function backToRepair(){
+				 window.location.href="${pageContext.request.contextPath}/web/repairCards";
+			}
 		</script>	
 	    <title>订单支付</title>
 	</head>
@@ -63,7 +67,11 @@ System.out.println("in jsapi.jsp");
 					<h3 style="float: left;">支付金额：${fee}</h3>
 				</div>
 			</div>
-
+			<div class="row">
+				<p class="text-center">
+					<button style="border: none;margin-left: 15px" type="button" class="btn btn-primary  col-xs-2" onclick="backToRepair()">返回</button>
+				</p>
+			</div>
 			<div class="row dingwei">
 				<p class="text-center">
 					<button style="border: none;" type="button" class="btn btn-primary btn-lg  col-xs-6" onclick="pay();">确认支付</button>

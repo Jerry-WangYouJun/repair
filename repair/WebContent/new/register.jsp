@@ -13,7 +13,14 @@
     padding: 0px !important; 
 }
 </style>	
+<script type="text/javascript">
+	$(function(){
+		if('${loginMember.memberId}' != ''){
+			$("#idCard").attr("readonly","readonly")
+		}
+	})
 
+</script>
 </head>
 <body id="a2">
 	<div class="grid_3">
