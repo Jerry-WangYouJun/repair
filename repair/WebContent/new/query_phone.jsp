@@ -85,6 +85,10 @@
 			
 			function phoneQuery(){
 				var phone =  $("#phone").val();
+				if(phone ==''){
+					 alert("电话号码不能为空");
+					 return false ;
+				}
 				window.location.href = "${basePath}/web/phoneQuery?phone=" + phone;
 			}
 		</script>

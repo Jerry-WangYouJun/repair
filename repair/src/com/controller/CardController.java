@@ -178,7 +178,7 @@ public class CardController {
 	        	  	  custMaster =  custList.get(0);
 	        	  	  if(flag == 1){
 	        	  		  qo = new QueryData(); 
-	        	  		  qo.setSearchCardNumber(order.getBrokerage());
+	        	  		  qo.setSearchName(order.getBrokerage());
 	        	  		  List<MemberAttribute> custWorkList = memberService.queryAllMembers(qo, new Pagination());
 	        	  		  if(custWorkList != null  && custWorkList.size() >0) {
 	        	  			  Member custWork = custWorkList.get(0);

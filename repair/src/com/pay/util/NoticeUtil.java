@@ -72,7 +72,7 @@ public class NoticeUtil {
         tem.setTopColor("#000000");  
                   
         List<TemplateParam> paras=new ArrayList<TemplateParam>();  
-        paras.add(new TemplateParam("first","您好！您已成功付款。","#333"));  
+        paras.add(new TemplateParam("first","您好！您的工单："+ order.getOrderNumber() + "已成功付款。","#333"));  
         paras.add(new TemplateParam("keyword1", custMaster.getName(),"#333"));
         paras.add(new TemplateParam("keyword2", order.getOrderContent(),"#333"));
         paras.add(new TemplateParam("keyword3", order.getOrderMoney() + "","#333"));
@@ -111,7 +111,7 @@ public class NoticeUtil {
         tem.setTopColor("#000000");  
                   
         List<TemplateParam> paras=new ArrayList<TemplateParam>();  
-        paras.add(new TemplateParam("first","您好！付款失败，余额不足。","#333"));  
+        paras.add(new TemplateParam("first","您好！您的工单："+ order.getOrderNumber() + "付款失败，余额不足。","#333"));  
         paras.add(new TemplateParam("keyword1", custMaster.getName(),"#333"));
         paras.add(new TemplateParam("keyword2", order.getOrderContent(),"#333"));
         paras.add(new TemplateParam("keyword3", order.getOrderMoney() + "","#333"));
