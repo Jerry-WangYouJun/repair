@@ -12,7 +12,7 @@ public class OrderUtils {
 	
 	public static String genOrderNo(String iccid){
 		String orderNo = "PW" + iccid + "";
-		SimpleDateFormat sdf=new SimpleDateFormat("MMddhhmm");
+		SimpleDateFormat sdf=new SimpleDateFormat("MMddhhmmss");
 		String nowTime = sdf.format(new Date());
 		orderNo+= nowTime;
 		return orderNo;

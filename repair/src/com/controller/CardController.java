@@ -176,7 +176,7 @@ public class CardController {
 	     	 Member custMaster =  new Member();
 	         if(custList != null  && custList.size() >0) {
 	        	  	  custMaster =  custList.get(0);
-	        	  	  if(flag == 1){
+	        	  	  if(flag == 1 ){
 	        	  		  qo = new QueryData(); 
 	        	  		  qo.setSearchName(order.getBrokerage());
 	        	  		  List<MemberAttribute> custWorkList = memberService.queryAllMembers(qo, new Pagination());

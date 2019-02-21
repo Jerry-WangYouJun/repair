@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>查询ICCID卡号</title>
+<title>查询卡号</title>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <link href="${basePath}/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${basePath}/css/style.css" />

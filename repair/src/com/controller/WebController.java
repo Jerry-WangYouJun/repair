@@ -23,6 +23,7 @@ import com.common.StringUtils;
 import com.model.Card;
 import com.model.CardAttribute;
 import com.model.Member;
+import com.model.MemberAttribute;
 import com.model.Order;
 import com.model.Pagination;
 import com.model.QueryData;
@@ -205,29 +206,48 @@ public class WebController {
 	@RequestMapping("/updateOrderState")
 	public String updateOrderState(HttpServletRequest request ,HttpSession session  , String orderNumber , String state) throws UnsupportedEncodingException{
 		try {
-		QueryData qo = new QueryData();
-		qo.setSearchOrderNumber(orderNumber);
-		Order order = orderService.queryAllOrders(qo, new Pagination()).get(0) ;
-		Card card = service.querySingleCard(order.getCardNumber());
-         BigDecimal money = new BigDecimal(card.getCardBalance());
-         money = money.subtract(new BigDecimal(order.getOrderMoney()));
-         int flag = money.compareTo(BigDecimal.ZERO); 
-         qo = new QueryData();
-         qo.setSearchCardNumber(order.getCardNumber());
-         Member custMaster = memberService.queryAllMembers(qo, new Pagination()).get(0);
-         if(flag == 1){
-        	 	 qo = new QueryData(); 
-             qo.setSearchName(order.getBrokerage());
-             Member custWork = memberService.queryAllMembers(qo, new Pagination()).get(0);
-	        	 orderService.updateOrderState(orderNumber ,  "已付款");
-	        	 service.updateCardBalance(order.getCardNumber(),money);
-	        	 WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
-	        	 WXAuthUtil.sendTemplateMsg(NoticeUtil.successPayWorker(order , custWork , custMaster.getName()));
-         }else{
-	        	 request.setAttribute("msg", "付款失败，余额不足");
-	        	 request.setAttribute("orderNow", order.getOrderNumber());
-	        	 WXAuthUtil.sendTemplateMsg(NoticeUtil.failPay(order , custMaster));
-         }
+			QueryData qo = new QueryData();
+			qo.setSearchOrderNumber(orderNumber);
+			Order order = orderService.queryAllOrders(qo, new Pagination()).get(0) ;
+			if("已付款".equals(order.getState())){
+	 			  return null;
+			 }
+			Card card = service.querySingleCard(order.getCardNumber());
+	         BigDecimal money = new BigDecimal(card.getCardBalance());
+	         money = money.subtract(new BigDecimal(order.getOrderMoney()));
+	         int flag = money.compareTo(BigDecimal.ZERO); 
+	         qo = new QueryData();
+	         qo.setSearchCardNumber(order.getCardNumber());
+	         List<MemberAttribute> custList = memberService.queryAllMembers(qo, new Pagination());
+	     	 Member custMaster =  new Member();
+	     	if(custList != null  && custList.size() >0) {
+	     		custMaster =  custList.get(0);
+	     		if(flag == 1){
+	     			qo = new QueryData(); 
+	     			qo.setSearchName(order.getBrokerage());
+	     			List<MemberAttribute> custWorkList = memberService.queryAllMembers(qo, new Pagination());
+	      	  		if(custWorkList != null  && custWorkList.size() >0) {
+	      	  			 Member custWork = custWorkList.get(0);
+	      	  			  orderService.updateOrderState(orderNumber ,  "已付款");
+	      	  			  service.updateCardBalance(order.getCardNumber(),money);
+	      	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
+	      	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPayWorker(order , custWork , custMaster.getName()));
+	      	  		}else{
+	      	  			  orderService.updateOrderState(orderNumber ,  "已付款");
+	      	  			  service.updateCardBalance(order.getCardNumber(),money);
+	      	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
+	      	  			 request.setAttribute("msg", "扣款成功，工人姓名有误，请核对");
+		     			 request.setAttribute("orderNow", order.getOrderNumber());
+	      	  		}
+	     		}else{
+	     			request.setAttribute("msg", "付款失败，余额不足");
+	     			request.setAttribute("orderNow", order.getOrderNumber());
+	     			WXAuthUtil.sendTemplateMsg(NoticeUtil.failPay(order , custMaster));
+	     		}
+	     	}else{
+	     		request.setAttribute("msg", "付款失败，未找到关联持卡人，请核对卡信息");
+     			request.setAttribute("orderNow", order.getOrderNumber());
+	     	}
 		} catch (Exception e) {
 			 System.out.println("出现异常" + e.getMessage());
 		} 
