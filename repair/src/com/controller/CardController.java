@@ -263,7 +263,7 @@ public class CardController {
             qo.setSearchCardNumber(order.getCardNumber());
             Member member  = memberService.queryAllMembers(qo, new Pagination()).get(0);
             try {
-            		//WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( order.getOrderMoney() + "" , member.getOpenId() , order.getCardNumber()));
+            		WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( order.getOrderMoney() + "" , member.getOpenId() , order.getCardNumber()));
             }catch(Exception e) {
             		System.out.println(e.getMessage());
             }
