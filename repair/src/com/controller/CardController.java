@@ -131,11 +131,12 @@ public class CardController {
             order.setBrokerage(member.getName());
             //order.setOrderNumber(getNewOrderNumber(session));
 //            Card card = service.querySingleCard(order.getCardNumber());
-//            BigDecimal money = new BigDecimal(card.getCardBalance());
-//            money = money.subtract(new BigDecimal(order.getOrderMoney()));
+            BigDecimal money = new BigDecimal(order.getMoneyBalance());
+            money = money.subtract(new BigDecimal(order.getOrderMoney()));
             order.setState("待付款");
+            order.setMoneyBalance(money+"");
             orderService.insertConsumeOrder(order);
-            recordService.insertConsumeRecord(order,"consume");
+//            recordService.insertConsumeRecord(order,"consume");
             QueryData qo = new QueryData();
             qo.setSearchCardNumber(order.getCardNumber());
             Member custMaster = memberService.queryAllMembers(qo, new Pagination()).get(0);
@@ -160,7 +161,7 @@ public class CardController {
 	    	try {
 			 QueryData qo = new QueryData();
 			 qo.setSearchOrderNumber(orderNumber);
-			 Order order = orderService.queryAllOrders(qo, new Pagination()).get(0) ;
+			 OrderAttribute order = orderService.queryAllOrders(qo, new Pagination()).get(0) ;
 			 Card card = service.querySingleCard(order.getCardNumber());
 			 if(card ==null ) {
 				 json.put("msg", "付款失败，卡信息不存在");
@@ -177,6 +178,7 @@ public class CardController {
 	         if(custList != null  && custList.size() >0) {
 	        	  	  custMaster =  custList.get(0);
 	        	  	  if(flag == 1 ){
+	        	  		  order.setMoneyBalance(money + "");
 	        	  		  qo = new QueryData(); 
 	        	  		  qo.setSearchName(order.getBrokerage());
 	        	  		  List<MemberAttribute> custWorkList = memberService.queryAllMembers(qo, new Pagination());
@@ -184,6 +186,7 @@ public class CardController {
 	        	  			  Member custWork = custWorkList.get(0);
 	        	  			  orderService.updateOrderState(orderNumber ,  "已付款");
 	        	  			  service.updateCardBalance(order.getCardNumber(),money);
+	        	  			  recordService.insertConsumeRecord(order,"consume");
 	        	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
 	        	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPayWorker(order , custWork , custMaster.getName()));
 	        	  			  json.put("msg", "操作成功");
@@ -191,6 +194,7 @@ public class CardController {
 	        	  		  }else {
 	        	  			  orderService.updateOrderState(orderNumber ,  "已付款");
 	        	  			  service.updateCardBalance(order.getCardNumber(),money);
+	        	  			  recordService.insertConsumeRecord(order,"consume");
 	        	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
 	        	  			  json.put("msg", "扣款成功，工人姓名有误，请核对");
 	        	  			  json.put("success", true);
@@ -223,6 +227,7 @@ public class CardController {
             BigDecimal money = new BigDecimal(card.getCardBalance());
             money = money.subtract(new BigDecimal(order.getOrderMoney()));
             order.setState("已付款");
+            order.setMoneyBalance(money + "");
             orderService.insertConsumeOrder(order);
             recordService.insertConsumeRecord(order,"consume");
             QueryData qo = new QueryData();
@@ -246,17 +251,22 @@ public class CardController {
         response.setContentType("text/text;charset=UTF-8");
         PrintWriter out;
         try {
-            order.setBrokerage(session.getAttribute("user").toString());
+//            order.setBrokerage(session.getAttribute("user").toString());
             order.setOrderNumber(getNewOrderNumber(session));
             BigDecimal money = new BigDecimal(order.getMoneyBalance());
             money = money.add(new BigDecimal(order.getOrderMoney()));
-            orderService.insertConsumeOrder(order);
+           // orderService.insertConsumeOrder(order);
+            order.setMoneyBalance(money + "");
             recordService.insertRechargeRecord(order,"recharge");
             service.updateCardBalance(order.getCardNumber(),money);
             QueryData qo = new QueryData() ;
             qo.setSearchCardNumber(order.getCardNumber());
             Member member  = memberService.queryAllMembers(qo, new Pagination()).get(0);
-            WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( order.getOrderMoney() + "" , member.getOpenId() , order.getCardNumber()));
+            try {
+            		//WXAuthUtil.sendTemplateMsg(NoticeUtil.wxPay( order.getOrderMoney() + "" , member.getOpenId() , order.getCardNumber()));
+            }catch(Exception e) {
+            		System.out.println(e.getMessage());
+            }
             out = response.getWriter();
             JSONObject json = new JSONObject();
             json.put("msg", "操作成功");

@@ -219,13 +219,19 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#">消费管理<i class="im-paragraph-justify" ></i></a>
+                        <a href="#">卡费管理<i class="im-paragraph-justify" ></i></a>
                         <ul class="nav sub">
-                            <li><a href="#" class="st-bag" onclick='addTab("record","${pageContext.request.contextPath}/pages/record_list.jsp","消费记录")'>
+                        		<li><a href="#" class="st-bag" onclick='addTab("record","${pageContext.request.contextPath}/pages/record_list.jsp","汇总记录")'>
+                                卡费汇总记录</a>
+                            </li>
+                            <li><a href="#" class="st-bag" onclick='addTab("recordConsume","${pageContext.request.contextPath}/pages/record_consume_list.jsp","消费记录")'>
                                 消费记录</a>
                             </li>
-                            <li><a href="#" class="st-bag" onclick='addTab("order","${pageContext.request.contextPath}/pages/order_list.jsp","服务清单")'>
-                                服务清单</a>
+                            <li><a href="#" class="st-bag" onclick='addTab("recordRecharge","${pageContext.request.contextPath}/pages/record_recharge_list.jsp","充值记录")'>
+                                充值记录</a>
+                            </li>
+                            <li><a href="#" class="st-bag" onclick='addTab("order","${pageContext.request.contextPath}/pages/order_list.jsp","工单记录")'>
+                                工单记录</a>
                             </li>
                         </ul>
                     </li>

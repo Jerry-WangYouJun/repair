@@ -3,6 +3,7 @@ package com.service;
 import com.dao.OrderDao;
 import com.dao.OrderMapper;
 import com.model.Order;
+import com.model.OrderAttribute;
 import com.model.Pagination;
 import com.model.QueryData;
 
@@ -19,7 +20,7 @@ public class OrderService {
     @Autowired
     private OrderDao dao;
 
-    public List<Order> queryAllOrders(QueryData qo, Pagination page) {
+    public List<OrderAttribute> queryAllOrders(QueryData qo, Pagination page) {
         return dao.queryAllOrders(qo,page);
     }
 

@@ -88,7 +88,7 @@ public class CardDao {
             whereSql += " and   c.card_name  like  '%" + qo.getSearchCardName().trim() + "%' ";
         }
         if(StringUtils.isNotEmpty(qo.getSearchCardNumber())){
-            whereSql += " and   c.card_number  =   '" + qo.getSearchCardNumber().trim() + "' ";
+            whereSql += " and   c.card_number  like   '%" + qo.getSearchCardNumber().trim() + "%' ";
 
         }
         if(StringUtils.isNotEmpty(qo.getSearchName())){

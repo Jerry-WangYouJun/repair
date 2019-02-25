@@ -101,6 +101,13 @@
 
 				columns : [ {
 					checkbox : true
+				},{  
+				    title: '序号',  
+				    field: '',  
+				    align: 'center',
+				    formatter: function (value, row, index) {  
+				        return index+1;  
+				    }  
 				},{
 					field : 'typeId', visible: false
 				},{

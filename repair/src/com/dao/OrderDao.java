@@ -3,6 +3,7 @@ package com.dao;
 import com.common.Dialect;
 import com.model.CardAttribute;
 import com.model.Order;
+import com.model.OrderAttribute;
 import com.model.Pagination;
 import com.model.QueryData;
 
@@ -23,13 +24,13 @@ public class OrderDao {
     private JdbcTemplate jdbcTemplate;
 
 
-    public List<Order> queryAllOrders(QueryData qo, Pagination page) {
+    public List<OrderAttribute> queryAllOrders(QueryData qo, Pagination page) {
         String sql = " SELECT * FROM `order` o " + whereSQL(qo)  ;
         String finalSql = Dialect.getLimitString(sql, page.getPageNo(), page.getPageSize(), "MYSQL");
-        final  List<Order> list =   new ArrayList<>();
+        final  List<OrderAttribute> list =   new ArrayList<>();
         jdbcTemplate.query(finalSql, new RowMapper() {
             public Object mapRow(ResultSet rs, int arg1) throws SQLException {
-                Order order = new Order();
+            		OrderAttribute order = new OrderAttribute();
                 order.setOrderId(rs.getInt("order_id"));
                 order.setOrderNumber(rs.getString("order_number"));
                 order.setCardNumber(rs.getString("card_number"));
@@ -72,10 +73,10 @@ public class OrderDao {
         		whereSql += " and   o.brokerage  =  '" + qo.getSearchName().trim() + "' ";
         }
         if(StringUtils.isNotEmpty(qo.getSearchOrderNumber())){
-            whereSql += " and   o.order_number  =  '" + qo.getSearchOrderNumber().trim() + "' ";
+            whereSql += " and   o.order_number  like  '%" + qo.getSearchOrderNumber().trim() + "%' ";
         }
         if(StringUtils.isNotEmpty(qo.getSearchCardNumber())){
-            whereSql += " and   o.card_number  =   '" + qo.getSearchCardNumber().trim() + "' ";
+            whereSql += " and   o.card_number  like   '%" + qo.getSearchCardNumber().trim() + "%' ";
 
         }
         if(StringUtils.isNotEmpty(qo.getSearchOrderContent())){

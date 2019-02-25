@@ -14,6 +14,8 @@ public class PurchaseRecord {
     private Double purchaseMoney;
 
     private String purchaseType;
+    
+    private String balance;
 
     private String remark;
 
@@ -72,4 +74,13 @@ public class PurchaseRecord {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+    
 }

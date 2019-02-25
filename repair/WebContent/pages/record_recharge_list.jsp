@@ -5,7 +5,7 @@
 <html id="a1">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>服务清单</title>
+<title>消费管理</title>
 <style type="text/css">
   .panel-body {
     padding: 0px !important; 
@@ -21,25 +21,17 @@
 					<div id="toolbar" class="btn-group">
 						<form class="form-inline" role="form">
 							<div style="margin-bottom: 1px;">
-								<input type='text' class="form-control" id='searchOrderDate' placeholder="请选择日期" readonly="readonly" />
+								<input type='text' class="form-control" id='searchOrderDate' placeholder="请选择日期" readonly="readonly"/>
 								<input type="text" class="form-control" id="searchOrderNumber"
 									   placeholder="请输入工单号">
 								<input type="text" class="form-control" id="searchCardNumber"
 									   placeholder="请输入卡号">
 								<input type="text" class="form-control" id="searchOrderContent"
 									   placeholder="请输入服务项目">
-								<%--<input type="text" class="form-control" id="searchName"--%>
-									   <%--placeholder="请输入会员名">--%>
-								<%--<select class="form-control "  id="orderTypes"  name="orderTypes" style="display: inline">--%>
-									<%--<option value="">全部状态</option>--%>
-									<%--<option value="consume">消费</option>--%>
-									<%--<option value="recharge">充值</option>--%>
-								<%--</select>--%>
+								<input type="text" class="form-control" id="searchName"
+									   placeholder="请输入会员名">
 								<button id="btn_edit" type="button" class="btn btn-default" onclick="queryData()">
 									查询
-								</button>
-								<button id="btn_delete" type="button" class="btn btn-default" onclick="payOrder()">
-									<span class="glyphicon glyphicon-forward" aria-hidden="true" ></span>结账
 								</button>
 							</div>
 
@@ -108,7 +100,7 @@
 		$(function(){
             //getRoleType();
 			$('#infoTable').bootstrapTable({
-				url : '${basePath}/order/order_query', // 请求后台的URL（*）
+				url : '${basePath}/record/record_query?orderTypes=recharge', // 请求后台的URL（*）
 				method : 'get', // 请求方式（*）
 				toolbar : '#toolbar', // 工具按钮用哪个容器
 				cache : false, // 是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -116,15 +108,15 @@
 				pagination : true, // 是否显示分页（*）
 				pageNumber: 1,    //如果设置了分页，首页页码
 				pageSize: 50,                       //每页的记录行数（*）
-                pageList: [100,300,600],        //可供选择的每页的行数（*）
+				pageList: [100,300,600],        //可供选择的每页的行数（*）
 				queryParamsType:'',
                 queryParams : function(params) {
                     params.searchCardNumber = $("#searchCardNumber").val();
                     params.searchOrderNumber = $("#searchOrderNumber").val();
                     params.searchOrderDate = $("#searchOrderDate").val();
                     params.searchOrderContent = $("#searchOrderContent").val();
-                    // params.searchName = $("#searchName").val();
-                    // params.orderTypes = $("#orderTypes").val();
+                    params.searchName = $("#searchName").val();
+                    params.orderTypes = $("#orderTypes").val();
                     return params;
                 },
 				singleSelect    : false,
@@ -142,65 +134,43 @@
 				        return index+1;  
 				    }  
 				},{
-					field : 'orderId', visible: false
+					field : 'recordId', visible: false
 				},{
                     field : 'orderNumber',   title : '工单编号',   align: 'center', valign: 'middle'
                 },{
                     field : 'cardNumber',   title : '卡号',   align: 'center', valign: 'middle'
                 },{
-                    field : 'orderContent',   title : '服务项目',  align: 'center',   valign: 'middle'
+                    field : 'orderContent',   title : '服务项目',  align: 'center',   valign: 'middle',
+                    formatter : function(value, row, index) {
+                        if (row.purchaseType == 'consume') {
+                            return value;
+                        } else if (row.purchaseType == 'recharge') {
+                            return "会员卡充值";
+                        }
+                    }
                 },{
-					field : 'orderDate',   title : '工单日期',  align: 'center',   valign: 'middle'
+					field : 'orderDate',   title : '日期',  align: 'center',   valign: 'middle'
                 },{
-                    field : 'duration',   title : '时长（小时）',   align: 'center', valign: 'middle'
+                    field : 'purchaseMoney',   title : '金额',   align: 'center', valign: 'middle'
                 },{
-                    field : 'orderMoney',   title : '工单金额',   align: 'center', valign: 'middle'
+                    field : 'name',   title : '会员名称',   align: 'center', valign: 'middle'
                 },{
-                    field : 'state',   title : '工单状态',   align: 'center', valign: 'middle'
-                },{
-                    field : 'brokerage',   title : '经手人',   align: 'center', valign: 'middle'
+                    field : 'purchaseType',   title : '类型',   align: 'center', valign: 'middle',
+                    formatter : function(value, row, index) {
+                        if (value == 'consume') {
+                            return "消费";
+                        } else if (value == 'recharge') {
+                            return "充值";
+                        }
+                    }
 				},{
-					field : 'remark',   title : '备注',  align: 'center',   valign: 'middle'
-				},{
-	                field : 'operate',   title : '操作',   align: 'center', valign: 'middle',formatter:AddFunctionAlty
-				}
+                    field : 'balance',   title : '余额',   align: 'center', valign: 'middle'
+                },{
+					field : 'remark',   title : '备注',  align: 'center',   valign: 'middle'}
 					],
 				silent : true, // 刷新事件必须设置
 			});
 		});
-		
-		function AddFunctionAlty(value,row,index) {
-			return [
-				'<button   type="button"  class="consume  btn btn-default  btn-sm" onclick="payOrder('+ "'" + row.orderNumber + "','"+ row.state+"'"+')" >扣费</button>'
-			];
-		}
-		
-		function  payOrder(orderNumber , state){
-			if(state != '待付款'){
-				 alert('该工单不是待付款状态,不能进行该操作');
-				 return false ;
-			}
-			var path = "${basePath}/card/updateOrderState";
-            $.ajax({
-                url : path,
-                type : 'post',
-                data:{'orderNumber':orderNumber },
-                dataType : 'json',
-                success : function(data) {
-                    if (data.success) {
-                        alert( data.msg);
-                        $("#infoTable").bootstrapTable("refresh");
-                    } else {
-                        alert( data.msg);
-                    }
-
-                },
-                error : function(transport) {
-                    alert( "系统产生错误,请联系管理员!");
-                }
-            });
-            
-		}
 
         function deleteDataById(name) {
             var ids = "";
@@ -247,15 +217,16 @@
             autoclose :true ,
             todayHighlight : true,
             todayBtn : true,
-            clearBtn:true,
             minuteStep: 0,
             minView : 2,
+            clearBtn:true,
             initialDate:new Date()
         });
 
         function queryData(){
             $("#infoTable").bootstrapTable("refresh");
         }
+		
 		
 	</script>
 	

@@ -8,10 +8,11 @@
     <result column="order_date" property="orderDate" jdbcType="DATE" />
     <result column="purchase_money" property="purchaseMoney" jdbcType="DOUBLE" />
     <result column="purchase_type" property="purchaseType" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    record_id, card_number, order_number, order_date, purchase_money, purchase_type, 
+    record_id, card_number, order_number, order_date, purchase_money, purchase_type, balance,
     remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -26,11 +27,11 @@
   </delete>
   <insert id="insert" parameterType="com.model.PurchaseRecord" >
     insert into purchase_record (record_id, card_number, order_number, 
-      order_date, purchase_money, purchase_type, 
+      order_date, purchase_money, purchase_type, balance,
       remark)
     values (#{recordId,jdbcType=INTEGER}, #{cardNumber,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, 
       #{orderDate,jdbcType=DATE}, #{purchaseMoney,jdbcType=DOUBLE}, #{purchaseType,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{balance,jdbcType=VARCHAR} ,#{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.model.PurchaseRecord" >
     insert into purchase_record
@@ -52,6 +53,9 @@
       </if>
       <if test="purchaseType != null" >
         purchase_type,
+      </if>
+       <if test="balance != null" >
+        balance,
       </if>
       <if test="remark != null" >
         remark,
@@ -76,6 +80,9 @@
       <if test="purchaseType != null" >
         #{purchaseType,jdbcType=VARCHAR},
       </if>
+       <if test="balance != null" >
+        #{balance,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
@@ -99,6 +106,9 @@
       <if test="purchaseType != null" >
         purchase_type = #{purchaseType,jdbcType=VARCHAR},
       </if>
+       <if test="balance != null" >
+        balance = #{balance,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -112,6 +122,7 @@
       order_date = #{orderDate,jdbcType=DATE},
       purchase_money = #{purchaseMoney,jdbcType=DOUBLE},
       purchase_type = #{purchaseType,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where record_id = #{recordId,jdbcType=INTEGER}
   </update>

@@ -2,6 +2,7 @@ package com.dao;
 
 import com.common.Dialect;
 import com.model.Order;
+import com.model.OrderAttribute;
 import com.model.Pagination;
 import com.model.PurchaseRecordAttribute;
 import com.model.QueryData;
@@ -38,6 +39,7 @@ public class PurchaseRecordDao {
                 recordAttribute.setPurchaseMoney(rs.getDouble("purchase_money"));
                 recordAttribute.setName(rs.getString("name"));
                 recordAttribute.setPurchaseType(rs.getString("purchase_type"));
+                recordAttribute.setBalance(rs.getString("balance"));
                 recordAttribute.setRemark(rs.getString("remark"));
                 list.add(recordAttribute);
                 return null ;
@@ -59,15 +61,16 @@ public class PurchaseRecordDao {
         return total[0];
     }
 
-    public int insertConsumeRecord(Order order,String type) {
-        String insertsqlTemp = "INSERT INTO purchase_record (card_number,order_number,order_date,purchase_money,purchase_type,remark)  SELECT card_number,order_number,order_date,order_money,'"+type+
-                "',remark FROM `order` where order_number='"+order.getOrderNumber()+"'";
+    public int insertConsumeRecord(OrderAttribute order,String type) {
+        String insertsqlTemp = "INSERT INTO purchase_record (card_number,order_number,order_date,purchase_money,purchase_type,balance,remark)  "
+        		+ "values ( '"+order.getCardNumber()+"','"+order.getOrderNumber()+"',now(),'"+order.getOrderMoney()+"','"+type+"' , '" + order.getMoneyBalance()+ "' ,'"+order.getRemark()+"' )";
         return jdbcTemplate.update(insertsqlTemp);
     }
 
-    public int insertRechargeRecord(Order order, String type) {
-        String insertsqlTemp = "INSERT INTO purchase_record (card_number,order_number,order_date,purchase_money,purchase_type,remark)  SELECT card_number,order_number,order_date,order_money,'"+type+
-                "',remark FROM `order` where order_number='"+order.getOrderNumber()+"'";
+    public int insertRechargeRecord(OrderAttribute order, String type) {
+        String insertsqlTemp = "INSERT INTO purchase_record (card_number,order_number,order_date,purchase_money,purchase_type,balance,remark)   "
+        		+ "values ( '"+order.getCardNumber()+"','"+order.getOrderNumber()+"',now(),'"+order.getOrderMoney()+"','"+type+
+                "', '" + order.getMoneyBalance()+ "' ,'"+order.getRemark()+"' )";
         return jdbcTemplate.update(insertsqlTemp);
     }
 
@@ -77,7 +80,7 @@ public class PurchaseRecordDao {
     public String whereSQL(QueryData qo){
         String whereSql = " where 1=1 ";
         if(StringUtils.isNotEmpty(qo.getSearchCardNumber())){
-            whereSql += " and   r.card_number  =   '" + qo.getSearchCardNumber().trim() + "' ";
+            whereSql += " and   r.card_number  like  '%" + qo.getSearchCardNumber().trim() + "%' ";
 
         }
         if(StringUtils.isNotEmpty(qo.getSearchName())){
@@ -90,7 +93,7 @@ public class PurchaseRecordDao {
             whereSql += " and   r.order_date  =   '" + qo.getSearchOrderDate().trim() + "' ";
         }
         if(StringUtils.isNotEmpty(qo.getSearchOrderNumber()) ) {
-            whereSql += " and   r.order_number  =   '" + qo.getSearchOrderNumber().trim() + "' ";
+            whereSql += " and   r.order_number  like   '%" + qo.getSearchOrderNumber().trim() + "%' ";
         }
         if(StringUtils.isNotEmpty(qo.getSearchOrderContent()) ) {
             whereSql += " and   o.order_content  like   '%" + qo.getSearchOrderContent().trim() + "%' ";
