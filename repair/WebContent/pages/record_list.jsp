@@ -10,6 +10,9 @@
   .panel-body {
     padding: 0px !important; 
 }
+.form-control{
+	width:10% !important;
+}
 </style>	
 
 </head>
@@ -17,19 +20,21 @@
 	<div >
 			<div >
 				  <div class="panel-body" id="a3" style="display:block">
+				  
 				  	    <table id="infoTable"> </table>
 					<div id="toolbar" class="btn-group">
 						<form class="form-inline" role="form">
 							<div style="margin-bottom: 1px;">
-								<input type='text' class="form-control" id='searchOrderDate' placeholder="请选择日期" readonly="readonly"/>
+								<input type='text' class="form-control" id='searchOrderDate' placeholder="开始日期" readonly="readonly"/>
+								<input type='text' class="form-control" id='searchOrderDateEnd' placeholder="开始日期" readonly="readonly"/>
 								<input type="text" class="form-control" id="searchOrderNumber"
-									   placeholder="请输入工单号">
+									   placeholder="工单号">
 								<input type="text" class="form-control" id="searchCardNumber"
-									   placeholder="请输入卡号">
+									   placeholder="维修卡号">
 								<input type="text" class="form-control" id="searchOrderContent"
-									   placeholder="请输入服务项目">
+									   placeholder="服务项目">
 								<input type="text" class="form-control" id="searchName"
-									   placeholder="请输入会员名">
+									   placeholder="会员名">
 								<select class="form-control "  id="orderTypes"  name="orderTypes" style="display: inline">
 									<option value="">全部状态</option>
 									<option value="consume">消费</option>
@@ -119,6 +124,7 @@
                     params.searchCardNumber = $("#searchCardNumber").val();
                     params.searchOrderNumber = $("#searchOrderNumber").val();
                     params.searchOrderDate = $("#searchOrderDate").val();
+                    params.searchOrderDateEnd = $("#searchOrderDateEnd").val();
                     params.searchOrderContent = $("#searchOrderContent").val();
                     params.searchName = $("#searchName").val();
                     params.orderTypes = $("#orderTypes").val();
@@ -137,7 +143,8 @@
 				    align: 'center',
 				    formatter: function (value, row, index) {  
 				        return index+1;  
-				    }  
+				    }
+
 				},{
 					field : 'recordId', visible: false
 				},{
@@ -217,6 +224,18 @@
         }
 
         $('#searchOrderDate').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language:"zh-CN",
+            autoclose :true ,
+            todayHighlight : true,
+            todayBtn : true,
+            minuteStep: 0,
+            minView : 2,
+            clearBtn:true,
+            initialDate:new Date()
+        });
+        
+        $('#searchOrderDateEnd').datetimepicker({
             format: 'yyyy-mm-dd',
             language:"zh-CN",
             autoclose :true ,

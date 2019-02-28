@@ -10,6 +10,10 @@
   .panel-body {
     padding: 0px !important; 
 }
+
+.form-control{
+	width:15% !important;
+}
 </style>	
 
 </head>
@@ -21,7 +25,8 @@
 					<div id="toolbar" class="btn-group">
 						<form class="form-inline" role="form">
 							<div style="margin-bottom: 1px;">
-								<input type='text' class="form-control" id='searchOrderDate' placeholder="请选择日期" readonly="readonly"/>
+								<input type='text' class="form-control" id='searchOrderDate' placeholder="开始日期" readonly="readonly"/>
+								<input type='text' class="form-control" id='searchOrderDateEnd' placeholder="结束日期" readonly="readonly"/>
 								<input type="text" class="form-control" id="searchOrderNumber"
 									   placeholder="请输入工单号">
 								<input type="text" class="form-control" id="searchCardNumber"
@@ -110,10 +115,12 @@
 				pageSize: 50,                       //每页的记录行数（*）
 				pageList: [100,300,600],        //可供选择的每页的行数（*）
 				queryParamsType:'',
+				showFooter:true,
                 queryParams : function(params) {
                     params.searchCardNumber = $("#searchCardNumber").val();
                     params.searchOrderNumber = $("#searchOrderNumber").val();
                     params.searchOrderDate = $("#searchOrderDate").val();
+                    params.searchOrderDateEnd = $("#searchOrderDateEnd").val();
                     params.searchOrderContent = $("#searchOrderContent").val();
                     params.searchName = $("#searchName").val();
                     params.orderTypes = $("#orderTypes").val();
@@ -132,7 +139,10 @@
 				    align: 'center',
 				    formatter: function (value, row, index) {  
 				        return index+1;  
-				    }  
+				    } ,
+				    footerFormatter: function (){
+						return '合计'
+					} 
 				},{
 					field : 'recordId', visible: false
 				},{
@@ -144,11 +154,31 @@
                 },{
 					field : 'orderDate',   title : '日期',  align: 'center',   valign: 'middle'
                 },{
-                    field : 'purchaseMoney',   title : '金额',   align: 'center', valign: 'middle'
+                    field : 'purchaseMoney',   title : '金额',   align: 'center', valign: 'middle',
+	            		footerFormatter: function(value){
+	            			//统计总分数
+	            			var count=0;
+	            			for (var i in value) {
+	                        	if(value[i].purchaseMoney !=null){
+	                                count += value[i].purchaseMoney;
+	                            }
+	                        }
+	            			return count.toFixed(2);
+	            		}
                 },{
                     field : 'name',   title : '会员名称',   align: 'center', valign: 'middle'
                 } ,{
-                    field : 'balance',   title : '余额',   align: 'center', valign: 'middle'
+                    field : 'balance',   title : '余额',   align: 'center', valign: 'middle',
+	            		footerFormatter: function(value){
+	            			//统计总分数
+	            			var count=0;
+	            			for (var i in value) {
+	                        	if(value[i].balance !=null){
+	                                count += value[i].balance;
+	                            }
+	                        }
+	            			return count.toFixed(2);
+	            		}
                 },{
                     field : 'purchaseType',   title : '类型',   align: 'center', valign: 'middle',
                     formatter : function(value, row, index) {
@@ -205,6 +235,17 @@
         }
 
         $('#searchOrderDate').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language:"zh-CN",
+            autoclose :true ,
+            todayHighlight : true,
+            todayBtn : true,
+            minuteStep: 0,
+            minView : 2,
+            clearBtn:true,
+            initialDate:new Date()
+        });
+        $('#searchOrderDateEnd').datetimepicker({
             format: 'yyyy-mm-dd',
             language:"zh-CN",
             autoclose :true ,

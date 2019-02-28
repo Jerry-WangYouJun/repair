@@ -13,6 +13,7 @@ public class QueryData {
 	private String searchPhone;
 	private String searchOrderNumber;
 	private String searchOrderDate;
+	private String searchOrderDateEnd;
 	private String searchOrderContent;
 	private String orderTypes;
 	private String orderState;
@@ -130,6 +131,14 @@ public class QueryData {
 
 	public void setMemberPhone(String memberPhone) {
 		this.memberPhone = memberPhone;
+	}
+
+	public String getSearchOrderDateEnd() {
+		return searchOrderDateEnd;
+	}
+
+	public void setSearchOrderDateEnd(String searchOrderDateEnd) {
+		this.searchOrderDateEnd = searchOrderDateEnd;
 	}
 	
 }

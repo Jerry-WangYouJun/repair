@@ -83,7 +83,10 @@ public class OrderDao {
             whereSql += " and   o.order_content like  '%" + qo.getSearchOrderContent().trim() + "%' ";
         }
         if(StringUtils.isNotEmpty(qo.getSearchOrderDate()) ) {
-            whereSql += " and   o.order_date  =   '" + qo.getSearchOrderDate().trim() + "' ";
+            whereSql += " and   o.order_date  >=   '" + qo.getSearchOrderDate().trim() + "' ";
+        }
+        if(StringUtils.isNotEmpty(qo.getSearchOrderDateEnd()) ) {
+            whereSql += " and   o.order_date   <=  '" + qo.getSearchOrderDateEnd().trim() + "' ";
         }
         return whereSql ;
     }

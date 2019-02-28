@@ -39,7 +39,7 @@ public class PurchaseRecordDao {
                 recordAttribute.setPurchaseMoney(rs.getDouble("purchase_money"));
                 recordAttribute.setName(rs.getString("name"));
                 recordAttribute.setPurchaseType(rs.getString("purchase_type"));
-                recordAttribute.setBalance(rs.getString("balance"));
+                recordAttribute.setBalance(rs.getDouble("balance"));
                 recordAttribute.setRemark(rs.getString("remark"));
                 list.add(recordAttribute);
                 return null ;
@@ -90,7 +90,10 @@ public class PurchaseRecordDao {
             whereSql += " and   r.purchase_type  =   '" + qo.getOrderTypes().trim() + "' ";
         }
         if(StringUtils.isNotEmpty(qo.getSearchOrderDate()) ) {
-            whereSql += " and   r.order_date  =   '" + qo.getSearchOrderDate().trim() + "' ";
+            whereSql += " and   r.order_date   >=  '" + qo.getSearchOrderDate().trim() + "' ";
+        }
+        if(StringUtils.isNotEmpty(qo.getSearchOrderDateEnd()) ) {
+            whereSql += " and   r.order_date   <=  '" + qo.getSearchOrderDateEnd().trim() + "' ";
         }
         if(StringUtils.isNotEmpty(qo.getSearchOrderNumber()) ) {
             whereSql += " and   r.order_number  like   '%" + qo.getSearchOrderNumber().trim() + "%' ";

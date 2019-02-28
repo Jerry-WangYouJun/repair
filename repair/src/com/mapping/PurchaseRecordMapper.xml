@@ -8,7 +8,7 @@
     <result column="order_date" property="orderDate" jdbcType="DATE" />
     <result column="purchase_money" property="purchaseMoney" jdbcType="DOUBLE" />
     <result column="purchase_type" property="purchaseType" jdbcType="VARCHAR" />
-    <result column="balance" property="balance" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="DOUBLE" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -31,7 +31,7 @@
       remark)
     values (#{recordId,jdbcType=INTEGER}, #{cardNumber,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, 
       #{orderDate,jdbcType=DATE}, #{purchaseMoney,jdbcType=DOUBLE}, #{purchaseType,jdbcType=VARCHAR}, 
-      #{balance,jdbcType=VARCHAR} ,#{remark,jdbcType=VARCHAR})
+      #{balance,jdbcType=DOUBLE} ,#{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.model.PurchaseRecord" >
     insert into purchase_record
@@ -81,7 +81,7 @@
         #{purchaseType,jdbcType=VARCHAR},
       </if>
        <if test="balance != null" >
-        #{balance,jdbcType=VARCHAR},
+        #{balance,jdbcType=DOUBLE},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -107,7 +107,7 @@
         purchase_type = #{purchaseType,jdbcType=VARCHAR},
       </if>
        <if test="balance != null" >
-        balance = #{balance,jdbcType=VARCHAR},
+        balance = #{balance,jdbcType=DOUBLE},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -122,7 +122,7 @@
       order_date = #{orderDate,jdbcType=DATE},
       purchase_money = #{purchaseMoney,jdbcType=DOUBLE},
       purchase_type = #{purchaseType,jdbcType=VARCHAR},
-      balance = #{balance,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=DOUBLE},
       remark = #{remark,jdbcType=VARCHAR}
     where record_id = #{recordId,jdbcType=INTEGER}
   </update>
