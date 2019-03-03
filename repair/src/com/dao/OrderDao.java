@@ -25,7 +25,7 @@ public class OrderDao {
 
 
     public List<OrderAttribute> queryAllOrders(QueryData qo, Pagination page) {
-        String sql = " SELECT * FROM `order` o " + whereSQL(qo)  ;
+        String sql = " SELECT * FROM `order` o " + whereSQL(qo) + " order by o.order_date desc"  ;
         String finalSql = Dialect.getLimitString(sql, page.getPageNo(), page.getPageSize(), "MYSQL");
         final  List<OrderAttribute> list =   new ArrayList<>();
         jdbcTemplate.query(finalSql, new RowMapper() {
@@ -35,6 +35,7 @@ public class OrderDao {
                 order.setOrderNumber(rs.getString("order_number"));
                 order.setCardNumber(rs.getString("card_number"));
                 order.setOrderContent(rs.getString("order_content"));
+                order.setContentDetail(rs.getString("content_detail"));
                 order.setOrderDate(rs.getString("order_date"));
                 order.setOrderMoney(rs.getDouble("order_money"));
                 order.setDuration(rs.getString("duration"));

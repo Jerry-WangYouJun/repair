@@ -93,8 +93,12 @@ public class WeixinPayController {
 	@RequestMapping("/index")
 	public String act(HttpServletRequest request, HttpServletResponse response){
 		//授权后要跳转的链接
+		String type = request.getParameter("type");
 		//邀约传web   活动传act   文章传article
-		String backUri = baseUrl + "/wx/checkact"  ;
+		String backUri = baseUrl + "/wx/checkact?flag=1"  ;
+		if(StringUtils.isNotEmpty(type)){
+			 backUri += "&type=" + type ;
+		}
 		//URLEncoder.encode 后可以在backUri 的url里面获取传递的所有参数
 		backUri = URLEncoder.encode(backUri);
 		//scope 参数视各自需求而定，这里用scope=snsapi_base 不弹出授权页面直接授权目的只获取统一支付接口的openid

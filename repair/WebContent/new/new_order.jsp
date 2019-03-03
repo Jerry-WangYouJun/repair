@@ -33,7 +33,26 @@
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="control-label">服务项目:</label>
-							<input class="form-control"  id ="orderContent" name="orderContent"/>	
+							<select class="form-control"  id ="orderContent" name="orderContent">
+								<option>水电路维修</option>
+								<option>房屋修缮</option>
+								<option>洁具安装维修</option>
+								<option>家具维修</option>
+								<option>管道维护</option>
+								<option>故障检测</option>
+								<option>管道疏通</option>
+								<option>油烟机清洗</option>
+								<option>家电清洗</option>
+								<option>家电维修</option>
+								<option>空调移机</option>
+								<option>锁具服务</option>
+								<option>甲醛服务</option>
+								<option>保洁</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="message-text" class="control-label">项目明细:</label>
+							<input type="text" class="form-control" name=contentDetail id="contentDetail" >
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="control-label">时长(小时):</label>

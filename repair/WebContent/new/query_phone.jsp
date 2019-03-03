@@ -62,6 +62,10 @@
 												<h5 id="cardBalance"> 卡内余额： ${card.cardBalance }</h5>
 												 
 											</li>
+											<li class="active">
+												<h5 id="memberName"> 持卡人： ${card.memberName }</h5>
+												 
+											</li>
 										</ul>
 									</div>
 								</div>

@@ -6,6 +6,7 @@
     <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
     <result column="card_number" jdbcType="VARCHAR" property="cardNumber" />
     <result column="order_content" jdbcType="VARCHAR" property="orderContent" />
+    <result column="content_detail" jdbcType="VARCHAR" property="contentDetail" />
     <result column="order_date" jdbcType="DATE" property="orderDate" />
     <result column="duration" jdbcType="VARCHAR" property="duration" />
     <result column="order_money" jdbcType="DOUBLE" property="orderMoney" />
@@ -14,7 +15,7 @@
     <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
-    order_id, order_number, card_number, order_content, order_date, duration, order_money, 
+    order_id, order_number, card_number, order_content,content_detail, order_date, duration, order_money, 
     brokerage, remark , state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -32,11 +33,11 @@
   </delete>
   <insert id="insert" parameterType="com.model.Order">
     insert into order (order_id, order_number, card_number, 
-      order_content, order_date, duration, 
+      order_content, content_detail,order_date, duration, 
       order_money, brokerage, remark
       )
     values (#{orderId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{cardNumber,jdbcType=VARCHAR}, 
-      #{orderContent,jdbcType=VARCHAR}, #{orderDate,jdbcType=DATE}, #{duration,jdbcType=VARCHAR}, 
+      #{orderContent,jdbcType=VARCHAR},#{contentDetail,jdbcType=VARCHAR}, #{orderDate,jdbcType=DATE}, #{duration,jdbcType=VARCHAR}, 
       #{orderMoney,jdbcType=DOUBLE}, #{brokerage,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
@@ -54,6 +55,9 @@
       </if>
       <if test="orderContent != null">
         order_content,
+      </if>
+      <if test="contentDetail != null">
+        content_detail,
       </if>
         order_date,
       <if test="duration != null">
@@ -85,6 +89,9 @@
       <if test="orderContent != null">
         #{orderContent,jdbcType=VARCHAR},
       </if>
+      <if test="contentDetail != null">
+        #{contentDetail,jdbcType=VARCHAR},
+      </if>
         now(),
       <if test="duration != null">
         #{duration,jdbcType=VARCHAR},
@@ -115,6 +122,9 @@
       <if test="orderContent != null">
         order_content = #{orderContent,jdbcType=VARCHAR},
       </if>
+      <if test="contentDetail != null">
+        content_detail = #{contentDetail,jdbcType=VARCHAR},
+      </if>
       <if test="orderDate != null">
         order_date = #{orderDate,jdbcType=DATE},
       </if>
@@ -141,6 +151,7 @@
     set order_number = #{orderNumber,jdbcType=VARCHAR},
       card_number = #{cardNumber,jdbcType=VARCHAR},
       order_content = #{orderContent,jdbcType=VARCHAR},
+      content_detail = #{contentDetail,jdbcType=VARCHAR},
       order_date = #{orderDate,jdbcType=DATE},
       duration = #{duration,jdbcType=VARCHAR},
       order_money = #{orderMoney,jdbcType=DOUBLE},

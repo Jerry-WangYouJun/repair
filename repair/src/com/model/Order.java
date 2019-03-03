@@ -1,6 +1,5 @@
 package com.model;
 
-import java.util.Date;
 
 public class Order {
     private Integer orderId;
@@ -10,6 +9,8 @@ public class Order {
     private String cardNumber;
 
     private String orderContent;
+    
+    private String contentDetail;
 
     private String orderDate;
 
@@ -102,6 +103,13 @@ public class Order {
 	public void setState(String state) {
 		this.state = state;
 	}
-    
+
+	public String getContentDetail() {
+		return contentDetail;
+	}
+
+	public void setContentDetail(String contentDetail) {
+		this.contentDetail = contentDetail;
+	}
     
 }

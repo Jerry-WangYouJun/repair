@@ -10,7 +10,16 @@ public class PurchaseRecordAttribute extends PurchaseRecord {
         this.orderContent = orderContent;
     }
 
-    public String getName() {
+    
+    public String getContentDetail() {
+		return contentDetail;
+	}
+
+	public void setContentDetail(String contentDetail) {
+		this.contentDetail = contentDetail;
+	}
+
+	public String getName() {
         return name;
     }
 
@@ -20,5 +29,5 @@ public class PurchaseRecordAttribute extends PurchaseRecord {
 
     private String orderContent;
     private String name;
-
+    public String contentDetail;
 }

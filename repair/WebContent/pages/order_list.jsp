@@ -160,6 +160,8 @@
                 },{
                     field : 'orderContent',   title : '服务项目',  align: 'center',   valign: 'middle'
                 },{
+                    field : 'contentDetail',   title : '项目明细',  align: 'center',   valign: 'middle'
+                },{
 					field : 'orderDate',   title : '工单日期',  align: 'center',   valign: 'middle'
                 },{
                     field : 'duration',   title : '时长（小时）',   align: 'center', valign: 'middle',

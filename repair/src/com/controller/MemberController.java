@@ -71,10 +71,12 @@ public class MemberController {
                 WXAuthUtil.sendTemplateMsg(NoticeUtil.registerSuccess(member));
             }else{
                 service.updateMember(member);
-                user.setUsername(member.getPhone());
+                user.setName(member.getMemberCode());
                 user = userService.queryByWhere(user).get(0);
                 user.setRoleId(member.getRole());
+                user.setUsername(member.getPhone());
                 userService.updateUser(user);
+                WXAuthUtil.sendTemplateMsg(NoticeUtil.updateSuccess(member));
             }
             out = response.getWriter();
             JSONObject json = new JSONObject();

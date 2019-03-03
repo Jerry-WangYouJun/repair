@@ -23,7 +23,10 @@
 	    }
 	    
 	    function deleteCard(id){
-	   	 	window.location.href='${basePath}/web/deleteCard?ids=' + id;
+	    	var flag = confirm("确定删除？删除后此卡将作废");
+	    	if(flag){
+		   	 	window.location.href='${basePath}/web/deleteCard?ids=' + id;
+	    	}
 	    }
 </script>
 </head>

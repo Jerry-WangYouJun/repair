@@ -57,6 +57,7 @@
 				<div class="modal-body">
 					<form id="dataForm">
 					 <input  class="form-control" name="memberId" id="memberId" type="hidden"></input>
+					 <input  class="form-control" name="memberCode" id="memberCode" type="hidden"></input>
 						<div class="form-group">
 							<label for="recipient-name" class="control-label">会员名称:</label> <input
 								type="text" class="form-control" name="name" id="name">

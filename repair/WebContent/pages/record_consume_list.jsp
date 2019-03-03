@@ -152,6 +152,8 @@
                 },{
                     field : 'orderContent',   title : '服务项目',  align: 'center',   valign: 'middle'
                 },{
+                    field : 'contentDetail',   title : '项目明细',  align: 'center',   valign: 'middle'
+                },{
 					field : 'orderDate',   title : '日期',  align: 'center',   valign: 'middle'
                 },{
                     field : 'purchaseMoney',   title : '金额',   align: 'center', valign: 'middle',
@@ -168,26 +170,9 @@
                 },{
                     field : 'name',   title : '会员名称',   align: 'center', valign: 'middle'
                 } ,{
-                    field : 'balance',   title : '余额',   align: 'center', valign: 'middle',
-	            		footerFormatter: function(value){
-	            			//统计总分数
-	            			var count=0;
-	            			for (var i in value) {
-	                        	if(value[i].balance !=null){
-	                                count += value[i].balance;
-	                            }
-	                        }
-	            			return count.toFixed(2);
-	            		}
+                    field : 'balance',   title : '余额',   align: 'center', valign: 'middle'
                 },{
-                    field : 'purchaseType',   title : '类型',   align: 'center', valign: 'middle',
-                    formatter : function(value, row, index) {
-                        if (value == 'consume') {
-                            return "消费";
-                        } else if (value == 'recharge') {
-                            return "充值";
-                        }
-                    }
+                    field : 'purchaseType',   title : '类型',   align: 'center', valign: 'middle'
 				},{
 					field : 'remark',   title : '备注',  align: 'center',   valign: 'middle'}
 					],

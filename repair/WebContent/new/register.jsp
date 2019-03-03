@@ -33,6 +33,7 @@
 					<input type="hidden" class="form-control" name="memberId" id="memberId" value="${loginMember.memberId}">
 					<input type="hidden" class="form-control" name="openId" id="openId" value="${openid}">
 					 <input  class="form-control" name="role" id="role"  type="hidden" value="${loginMember.role}"></input>
+					  <input  class="form-control" name="memberCode" id="memberCode"  type="hidden" value="${loginMember.memberCode}"></input>
 						<%-- <div class="form-group">
 							<label for="recipient-name" class="control-label">登陆帐号:</label> <input
 								type="text" class="form-control" name="username" id="username" value="${loginUser.username}">

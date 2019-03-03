@@ -131,8 +131,8 @@ public class CardController {
             order.setBrokerage(member.getName());
             //order.setOrderNumber(getNewOrderNumber(session));
 //            Card card = service.querySingleCard(order.getCardNumber());
-            BigDecimal money = new BigDecimal(order.getMoneyBalance());
-            money = money.subtract(new BigDecimal(order.getOrderMoney()));
+            BigDecimal money = new BigDecimal(order.getOrderMoney());
+//            money = money.subtract(new BigDecimal(order.getOrderMoney()));
             order.setState("待付款");
             order.setMoneyBalance(money+"");
             orderService.insertConsumeOrder(order);

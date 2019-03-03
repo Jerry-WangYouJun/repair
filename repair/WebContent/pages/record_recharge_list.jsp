@@ -183,17 +183,7 @@
                         }
                     }
 				},{
-                    field : 'balance',   title : '余额',   align: 'center', valign: 'middle',
-	            		footerFormatter: function(value){
-	            			//统计总分数
-	            			var count=0;
-	            			for (var i in value) {
-	                        	if(value[i].balance !=null){
-	                                count += value[i].balance;
-	                            }
-	                        }
-	            			return count.toFixed(2);
-	            		}
+                    field : 'balance',   title : '余额',   align: 'center', valign: 'middle'
                 },{
 					field : 'remark',   title : '备注',  align: 'center',   valign: 'middle'}
 					],

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.common.StringUtils;
@@ -24,7 +25,7 @@ import com.model.Card;
 import com.model.CardAttribute;
 import com.model.Member;
 import com.model.MemberAttribute;
-import com.model.Order;
+import com.model.OrderAttribute;
 import com.model.Pagination;
 import com.model.QueryData;
 import com.model.User;
@@ -33,6 +34,7 @@ import com.pay.util.WXAuthUtil;
 import com.service.CardService;
 import com.service.MemberService;
 import com.service.OrderService;
+import com.service.PurchaseRecordService;
 import com.service.UserService;
 
 import net.sf.json.JSONObject;
@@ -58,6 +60,9 @@ public class WebController {
     @Autowired
     private OrderService orderService;
     
+    @Autowired
+    private PurchaseRecordService recordService;
+    
 	
 	/**
 	 * 通过微信公众号登录
@@ -68,7 +73,7 @@ public class WebController {
 	 * @return
 	 */
 	@RequestMapping("/wxlogin")
-	public String wxLogin(HttpServletRequest request , HttpSession session , String openId ,String headImg) {
+	public String wxLogin(HttpServletRequest request , HttpSession session , String openId ,String headImg , String type , String value ) {
 		User user = new User();
 		user.setOpenid(openId);
 		session.setAttribute("headImg", headImg);
@@ -78,7 +83,11 @@ public class WebController {
 			 session.setAttribute("openid", openId);
 			 session.setAttribute("loginUser", userList.get(0));
 			 session.setAttribute("loginMember", member);
-			 return "forward:/new/person_center.jsp";
+			 if(StringUtils.isNotEmpty(type)){
+					return "forward:/web/" + type ;
+			 }else{
+				 return "forward:/new/person_center.jsp";
+			 }
 		}else {
 			request.setAttribute("openid", openId);
 			session.removeAttribute("loginUser");
@@ -208,7 +217,7 @@ public class WebController {
 		try {
 			QueryData qo = new QueryData();
 			qo.setSearchOrderNumber(orderNumber);
-			Order order = orderService.queryAllOrders(qo, new Pagination()).get(0) ;
+			OrderAttribute order = orderService.queryAllOrders(qo, new Pagination()).get(0) ;
 			if("已付款".equals(order.getState())){
 	 			  return null;
 			 }
@@ -223,6 +232,7 @@ public class WebController {
 	     	if(custList != null  && custList.size() >0) {
 	     		custMaster =  custList.get(0);
 	     		if(flag == 1){
+	     			 order.setMoneyBalance(money + "");
 	     			qo = new QueryData(); 
 	     			qo.setSearchName(order.getBrokerage());
 	     			List<MemberAttribute> custWorkList = memberService.queryAllMembers(qo, new Pagination());
@@ -230,11 +240,13 @@ public class WebController {
 	      	  			 Member custWork = custWorkList.get(0);
 	      	  			  orderService.updateOrderState(orderNumber ,  "已付款");
 	      	  			  service.updateCardBalance(order.getCardNumber(),money);
+	      	  			  recordService.insertConsumeRecord(order,"consume");
 	      	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
 	      	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPayWorker(order , custWork , custMaster.getName()));
 	      	  		}else{
 	      	  			  orderService.updateOrderState(orderNumber ,  "已付款");
 	      	  			  service.updateCardBalance(order.getCardNumber(),money);
+	      	  			  recordService.insertConsumeRecord(order,"consume");
 	      	  			  WXAuthUtil.sendTemplateMsg(NoticeUtil.successPay(order , custMaster));
 	      	  			 request.setAttribute("msg", "扣款成功，工人姓名有误，请核对");
 		     			 request.setAttribute("orderNow", order.getOrderNumber());
@@ -323,6 +335,14 @@ public class WebController {
 	    		request.setAttribute("cardList", list);
 	    		return "forward:/new/query_phone.jsp";
 	    }
+	 @RequestMapping("/cardQuery")
+	    public  String cardQuery(String cardNumber,HttpServletResponse response,HttpSession session , HttpServletRequest request) {
+	    		QueryData qo = new QueryData();
+	    		qo.setSearchCardNumber(cardNumber);
+	    		List<CardAttribute>  list=service.queryAllCards(qo, new Pagination());
+	    		request.setAttribute("cardList", list);
+	    		return "forward:/new/query_card.jsp";
+	    }
 	 
 	 @RequestMapping("/deleteCard")
 	    public String deleteCard(String ids,HttpServletResponse response) {
@@ -335,4 +355,9 @@ public class WebController {
 	            service.delCardWithIds(delList);
 	            return "forward:/web/repairCards";
 	    }
+	 
+	    @ExceptionHandler({Exception.class})       
+	    public String exception(Exception e) {       
+	        return "forward:/new/reload.jsp";       
+	    } 
 }

@@ -161,6 +161,8 @@
                         }
                     }
                 },{
+                    field : 'contentDetail',   title : '项目明细',  align: 'center',   valign: 'middle'
+                },{
 					field : 'orderDate',   title : '日期',  align: 'center',   valign: 'middle'
                 },{
                     field : 'purchaseMoney',   title : '金额',   align: 'center', valign: 'middle'

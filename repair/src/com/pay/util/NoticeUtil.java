@@ -44,6 +44,24 @@ public class NoticeUtil {
 	        tem.setUrl("http://suxiu110.cn/wx/index" );  
 	        return tem;
 	}
+	
+	public static Template updateSuccess(Member member) {
+		 Template tem=new Template();  
+	        tem.setTemplateId(registerSuccess);  
+	        tem.setTopColor("#000000");  
+	                  
+	        List<TemplateParam> paras=new ArrayList<TemplateParam>();  
+	        paras.add(new TemplateParam("first","恭喜您，会员信息修改成功","#333"));  
+	        paras.add(new TemplateParam("keyword1", member.getName(),"#333"));
+	        paras.add(new TemplateParam("keyword2", member.getPhone(),"#333"));
+	        paras.add(new TemplateParam("remark","感谢你对山东速修信息的支持!!!","#333"));  
+	                  
+	        tem.setTemplateParamList(paras);  
+	        tem.setToUser(member.getOpenId());//用户openid
+	        //设置超链接
+	        tem.setUrl("http://suxiu110.cn/wx/index" );  
+	        return tem;
+	}
 
 	public static Template confirmPay(OrderAttribute order, String openId) {
 		Template tem=new Template();  
@@ -62,7 +80,7 @@ public class NoticeUtil {
         tem.setTemplateParamList(paras);  
         tem.setToUser(openId);//用户openid
         //设置超链接
-        tem.setUrl("http://suxiu110.cn/wx/index" );  
+        tem.setUrl("http://suxiu110.cn/wx/index?type=custNotOverList" );  
         return tem;
 	}
 
@@ -81,7 +99,7 @@ public class NoticeUtil {
         tem.setTemplateParamList(paras);  
         tem.setToUser(custMaster.getOpenId());
         //设置超链接
-        tem.setUrl("http://suxiu110.cn/wx/index" );  
+        tem.setUrl("http://suxiu110.cn/wx/index?type=custOrderList" );  
         return tem;
 	}
 	
@@ -101,7 +119,7 @@ public class NoticeUtil {
         tem.setTemplateParamList(paras);  
         tem.setToUser(custWork.getOpenId());
         //设置超链接
-        tem.setUrl("http://suxiu110.cn/wx/index" );  
+        tem.setUrl("http://suxiu110.cn/wx/index?type=workList" );  
         return tem;
 	}
 
@@ -120,7 +138,7 @@ public class NoticeUtil {
         tem.setTemplateParamList(paras);  
         tem.setToUser(custMaster.getOpenId());
         //设置超链接
-        tem.setUrl("http://suxiu110.cn/wx/index" );  
+        tem.setUrl("http://suxiu110.cn/wx/index?type=custNotOverList" );  
         return tem;
 	}
 	

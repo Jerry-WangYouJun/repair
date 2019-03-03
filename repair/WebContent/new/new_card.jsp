@@ -69,11 +69,31 @@
 		function subInfo(){
 			var cardno = $("#cardNumber").val() ; 
 			 var pwd = $("#pwd").val();
-			 if(cardno == '' || pwd == ''){
+			 if(cardno != '' && pwd != ''){
+	            $.ajax({
+	                url : '${basePath}/card/checkCard',
+	                type : 'post',
+	                data : {cardno:cardno , pwd:pwd},
+	                dataType : 'json',
+	                success : function(data) {
+	                    if (data.success) {
+		                    	alert(data.msg);
+		                    	$("#cardNumber").val("") ;
+		                    	$("#pwd").val("");
+		                    	return false;
+	                    } else{
+	                    	subInfoAll("card");
+	                    }
+	                },
+	                error : function(transport) {
+	                    alert(data.msg);
+	                }
+	            });
+			 }else{
 				  alert("卡号和密码必填，请提供正确的卡信息进行验证");
 				  return false;
 			 }
-			subInfoAll("card");
+			
 		}
 		
 		function subInfoAll(name) {

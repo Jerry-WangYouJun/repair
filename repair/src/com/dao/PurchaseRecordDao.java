@@ -24,7 +24,7 @@ public class PurchaseRecordDao {
 
 
     public List<PurchaseRecordAttribute> queryAllRecords(QueryData qo, Pagination page) {
-        String sql = " SELECT r.*,o.order_content order_content,m.name name FROM purchase_record r left JOIN `order` o on r.order_number=o.order_number " +
+        String sql = " SELECT r.*,o.order_content order_content,m.name name , o.content_detail FROM purchase_record r left JOIN `order` o on r.order_number=o.order_number " +
                 " left join card c on r.card_number= c.card_number LEFT JOIN member m on c.member_id = m.member_id  " + whereSQL(qo) ;
         String finalSql = Dialect.getLimitString(sql, page.getPageNo(), page.getPageSize(), "MYSQL");
         final  List<PurchaseRecordAttribute> list =   new ArrayList<>();
@@ -35,6 +35,7 @@ public class PurchaseRecordDao {
                 recordAttribute.setOrderNumber(rs.getString("order_number"));
                 recordAttribute.setCardNumber(rs.getString("card_number"));
                 recordAttribute.setOrderContent(rs.getString("order_content"));
+                recordAttribute.setContentDetail(rs.getString("content_detail"));
                 recordAttribute.setOrderDate(rs.getDate("order_date"));
                 recordAttribute.setPurchaseMoney(rs.getDouble("purchase_money"));
                 recordAttribute.setName(rs.getString("name"));

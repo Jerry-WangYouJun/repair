@@ -47,6 +47,7 @@
 						<div class="twt-feed blue-bg" style="text-align: left;">
 							<p>工单编号：${order.orderNumber }</p>
 							<p>服务项目：${order.orderContent }</p>
+							<p>项目明细：${order.contentDetail }</p>
 							<p>服务金额：${order.orderMoney }</p>
 							<p>卡号：${order.cardNumber }</p>
 							<p>经手人：${order.brokerage }</p>
